@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Arch</string>
+
+    <!-- Screen -->
+    <string name="soc_screen_vendor_image">Vendor Image</string>
+    <string name="soc_screen_vendor">Vendor</string>
+    <string name="soc_screen_abi">ABI</string>
+    <string name="soc_screen_model">Model</string>
+    <string name="soc_screen_details">Details</string>
+    <string name="soc_gpu_details">Graphics</string>
+    <string name="soc_screen_cores">Cores</string>
+    <string name="soc_screen_clocks">Clocks</string>
+    <string name="soc_screen_core_n">Core %d</string>
+    <string name="soc_screen_value_mhz">%d MHz</string>
+    <string name="soc_screen_inactive_core">Inactive</string>
+    <string name="soc_screen_instructions">Instructions</string>
+    <string name="soc_screen_revision">Revision</string>
+    <string name="soc_screen_device">Device</string>
+    <string name="soc_screen_governor">Governor</string>
+    <string name="soc_screen_serial">Serial</string>
+    <string name="soc_gpu_vendor">Vendor</string>
+    <string name="soc_gpu_renderer">Renderer</string>
+    <string name="soc_gpu_version">Version</string>
+    <string name="unknown">Unknown</string>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
