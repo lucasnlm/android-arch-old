@@ -161,4 +161,112 @@ object MockPropCpuInfo {
 
         """.trimIndent()
 
+    val propCpuInfo3 = """
+
+        processor       : 0
+        vendor_id       : GenuineIntel
+        cpu family      : 6
+        model           : 70
+        model name      : Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz
+        stepping        : 1
+        cpu MHz         : 2194.935
+        cache size      : 6144 KB
+        physical id     : 0
+        siblings        : 4
+        core id         : 0
+        cpu cores       : 2
+        apicid          : 0
+        initial apicid  : 0
+        fpu             : yes
+        fpu_exception   : yes
+        cpuid level     : 13
+        wp              : yes
+        flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx
+        bugs            : cpu_meltdown spectre_v1 spectre_v2
+        bogomips        : 4389.87
+        clflush size    : 64
+        cache_alignment : 64
+        address sizes   : 39 bits physical, 48 bits virtual
+        power management:
+
+        processor       : 1
+        vendor_id       : GenuineIntel
+        cpu family      : 6
+        model           : 70
+        model name      : Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz
+        stepping        : 1
+        cpu MHz         : 2194.935
+        cache size      : 6144 KB
+        physical id     : 0
+        siblings        : 4
+        core id         : 0
+        cpu cores       : 2
+        apicid          : 1
+        initial apicid  : 1
+        fpu             : yes
+        fpu_exception   : yes
+        cpuid level     : 13
+        wp              : yes
+        flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx
+        bugs            : cpu_meltdown spectre_v1 spectre_v2
+        bogomips        : 4389.87
+        clflush size    : 64
+        cache_alignment : 64
+        address sizes   : 39 bits physical, 48 bits virtual
+        power management:
+
+        processor       : 2
+        vendor_id       : GenuineIntel
+        cpu family      : 6
+        model           : 70
+        model name      : Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz
+        stepping        : 1
+        cpu MHz         : 2194.935
+        cache size      : 6144 KB
+        physical id     : 0
+        siblings        : 4
+        core id         : 1
+        cpu cores       : 2
+        apicid          : 2
+        initial apicid  : 2
+        fpu             : yes
+        fpu_exception   : yes
+        cpuid level     : 13
+        wp              : yes
+        flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx
+        bugs            : cpu_meltdown spectre_v1 spectre_v2
+        bogomips        : 4389.87
+        clflush size    : 64
+        cache_alignment : 64
+        address sizes   : 39 bits physical, 48 bits virtual
+        power management:
+
+        processor       : 3
+        vendor_id       : GenuineIntel
+        cpu family      : 6
+        model           : 70
+        model name      : Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz
+        stepping        : 1
+        cpu MHz         : 2194.935
+        cache size      : 6144 KB
+        physical id     : 0
+        siblings        : 4
+        core id         : 1
+        cpu cores       : 2
+        apicid          : 3
+        initial apicid  : 3
+        fpu             : yes
+        fpu_exception   : yes
+        cpuid level     : 13
+        wp              : yes
+        flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx
+        bugs            : cpu_meltdown spectre_v1 spectre_v2
+        bogomips        : 4389.87
+        clflush size    : 64
+        cache_alignment : 64
+        address sizes   : 39 bits physical, 48 bits virtual
+        power management:
+
+        """.trimIndent()
+
 }
