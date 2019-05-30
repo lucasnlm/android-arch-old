@@ -58,10 +58,6 @@ class CpuInfoLoaderTest {
         val internalDataReader: InternalDataReader = mock {
             on { read(CPU_INFO_COMMAND) } doReturn ByteArrayInputStream(MockPropCpuInfo.propCpuInfo2.toByteArray())
             on { read(CPU_GOVERNOR)} doReturn ByteArrayInputStream("GOVERNOR".toByteArray())
-            on { read(makeClockCommand(0)) } doReturn ByteArrayInputStream("1000".toByteArray())
-            on { read(makeClockCommand(1)) } doReturn ByteArrayInputStream("1000".toByteArray())
-            on { read(makeClockCommand(2)) } doReturn ByteArrayInputStream("1000".toByteArray())
-            on { read(makeClockCommand(3)) } doReturn ByteArrayInputStream("1000".toByteArray())
         }
 
         val hardwareInfo: HardwareInfo = mock {
@@ -86,6 +82,39 @@ class CpuInfoLoaderTest {
                 device = null,
                 governor = "GOVERNOR",
                 flags = "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse".split(" ")
+            )
+        )
+    }
+
+    @Test
+    fun testGetCpuInfo3() {
+        val internalDataReader: InternalDataReader = mock {
+            on { read(CPU_INFO_COMMAND) } doReturn ByteArrayInputStream(MockPropCpuInfo.propCpuInfo3.toByteArray())
+            on { read(CPU_GOVERNOR)} doReturn ByteArrayInputStream("GOVERNOR".toByteArray())
+        }
+
+        val hardwareInfo: HardwareInfo = mock {
+            on { getCpuCoresNumber() } doReturn 4
+            on { getPlatformAbi() } doReturn "x86"
+        }
+
+        CpuInfoLoader(scheduler, internalDataReader, hardwareInfo).getCpuInfo().test().assertNoErrors().assertValue(
+            CpuInfo(
+                model = "70",
+                modelName = "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
+                vendor = "GenuineIntel",
+                revision = null,
+                architecture = null,
+                cpuCores = 4,
+                clocks = listOf(2195, 2195, 2195, 2195),
+                stepping = "1",
+                bogoMips = "4389.87",
+                bigLittle = 0,
+                abi = "x86",
+                serial = null,
+                device = null,
+                governor = "GOVERNOR",
+                flags = "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx".split(" ")
             )
         )
     }
