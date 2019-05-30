@@ -89,7 +89,6 @@ class SocInfoView: CpuInfoViewContract() {
         modelName.text = cpuInfo.modelName
 
         with (detailsList.adapter as InfoAdapter) {
-            setHasStableIds(false)
             list = listOf(
                 NamedInfo(
                     name = context.getString(R.string.soc_screen_abi),
@@ -164,7 +163,6 @@ class SocInfoView: CpuInfoViewContract() {
         val context = detailsList.context
 
         with(gpuList.adapter as InfoAdapter) {
-            setHasStableIds(false)
             list = listOf(
                 NamedInfo(
                     name = context.getString(R.string.soc_gpu_vendor),
