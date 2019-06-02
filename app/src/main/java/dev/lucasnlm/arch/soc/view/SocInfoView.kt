@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.*
 import com.google.android.flexbox.FlexboxLayout
 import dev.lucasnlm.arch.common.model.NamedInfo
 import dev.lucasnlm.arch.common.view.InfoAdapter
-import dev.lucasnlm.arch.soc.CpuInfoViewContract
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import android.widget.LinearLayout
 import dev.lucasnlm.arch.R
@@ -18,9 +17,10 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import android.content.pm.ConfigurationInfo
 import android.app.ActivityManager
+import dev.lucasnlm.arch.soc.Contract
 import io.reactivex.Observable
 
-class SocInfoView: CpuInfoViewContract() {
+class SocInfoView: Contract.View() {
 
     private lateinit var vendorName: TextView
     private lateinit var modelName: TextView

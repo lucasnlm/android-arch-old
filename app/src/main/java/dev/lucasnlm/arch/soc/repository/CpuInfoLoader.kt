@@ -1,8 +1,7 @@
 package dev.lucasnlm.arch.soc.repository
 
-import androidx.annotation.VisibleForTesting
-import dev.lucasnlm.arch.common.InternalDataReader
-import dev.lucasnlm.arch.soc.HardwareInfo
+import dev.lucasnlm.arch.core.system.InternalDataReader
+import dev.lucasnlm.arch.core.system.DeviceInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -13,7 +12,7 @@ import kotlin.math.roundToInt
 class CpuInfoLoader @Inject constructor(
     private val scheduler: Scheduler,
     private val internalDataReader: InternalDataReader,
-    private val hardwareInfo: HardwareInfo
+    private val deviceInfo: DeviceInfo
 ) {
 
     fun getCpuInfo(): Observable<CpuInfo> = Observable.fromCallable {
@@ -29,7 +28,7 @@ class CpuInfoLoader @Inject constructor(
             clocks = clockList,
             cpuCores = clockList.size,
             bogoMips = propCpuInfo["BogoMips", "BogoMIPS", "bogomips"],
-            abi = hardwareInfo.getPlatformAbi(),
+            abi = deviceInfo.getPlatformAbi(),
             bigLittle = 0,
             revision = propCpuInfo["Revision", "CPU revision"],
             device = propCpuInfo["Device"],
@@ -45,7 +44,7 @@ class CpuInfoLoader @Inject constructor(
     }
 
     private fun readClockValues(propCpuInfo: List<ProcessorInfo>): List<Int> {
-        val coresCount = hardwareInfo.getCpuCoresNumber()
+        val coresCount = deviceInfo.getCpuCoresNumber()
         return IntArray(coresCount) { 0 }.apply {
             propCpuInfo.mapIndexed { index, processorInfo ->
                 this[index] = processorInfo["cpu MHz"]?.toDouble()?.roundToInt() ?:

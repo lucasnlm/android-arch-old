@@ -1,7 +1,7 @@
 package dev.lucasnlm.arch.soc.presenter
 
 import dev.lucasnlm.arch.core.presenter.BasePresenter
-import dev.lucasnlm.arch.soc.CpuInfoPresenterContract
+import dev.lucasnlm.arch.soc.Contract
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import dev.lucasnlm.arch.soc.model.GpuInfo
 import dev.lucasnlm.arch.soc.repository.CpuInfoLoader
@@ -12,7 +12,7 @@ import javax.microedition.khronos.opengles.GL10
 
 class SocInfoPresenter @Inject constructor(
     private val cpuInfoLoader: CpuInfoLoader
-) : BasePresenter<SocInfoView>(), CpuInfoPresenterContract {
+) : BasePresenter<SocInfoView>(), Contract.Presenter {
 
     override fun onCreate() {
         super.onCreate()

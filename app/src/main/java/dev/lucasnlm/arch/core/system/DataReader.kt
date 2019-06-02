@@ -1,4 +1,4 @@
-package dev.lucasnlm.arch.common
+package dev.lucasnlm.arch.core.system
 
 import java.io.InputStream
 

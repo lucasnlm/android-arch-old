@@ -1,8 +1,8 @@
 package dev.lucasnlm.arch.soc.repository
 
 import com.nhaarman.mockitokotlin2.*
-import dev.lucasnlm.arch.common.InternalDataReader
-import dev.lucasnlm.arch.soc.HardwareInfo
+import dev.lucasnlm.arch.core.system.InternalDataReader
+import dev.lucasnlm.arch.core.system.DeviceInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import dev.lucasnlm.arch.soc.repository.CpuInfoLoader.Companion.CPU_INFO_COMMAND
 import dev.lucasnlm.arch.soc.repository.CpuInfoLoader.Companion.CPU_GOVERNOR
@@ -27,12 +27,12 @@ class CpuInfoLoaderTest {
             on { read(makeClockCommand(3)) } doReturn ByteArrayInputStream("1000".toByteArray())
         }
 
-        val hardwareInfo: HardwareInfo = mock {
+        val deviceInfo: DeviceInfo = mock {
             on { getCpuCoresNumber() } doReturn 4
             on { getPlatformAbi() } doReturn "arm"
         }
 
-        CpuInfoLoader(scheduler, internalDataReader, hardwareInfo).getCpuInfo().test().assertNoErrors().assertValue(
+        CpuInfoLoader(scheduler, internalDataReader, deviceInfo).getCpuInfo().test().assertNoErrors().assertValue(
             CpuInfo(
                 model = "AArch64 Processor rev 12 (aarch64)",
                 modelName = "Qualcomm Technologies, Inc SDM845",
@@ -60,12 +60,12 @@ class CpuInfoLoaderTest {
             on { read(CPU_GOVERNOR)} doReturn ByteArrayInputStream("GOVERNOR".toByteArray())
         }
 
-        val hardwareInfo: HardwareInfo = mock {
+        val deviceInfo: DeviceInfo = mock {
             on { getCpuCoresNumber() } doReturn 4
             on { getPlatformAbi() } doReturn "x86"
         }
 
-        CpuInfoLoader(scheduler, internalDataReader, hardwareInfo).getCpuInfo().test().assertNoErrors().assertValue(
+        CpuInfoLoader(scheduler, internalDataReader, deviceInfo).getCpuInfo().test().assertNoErrors().assertValue(
             CpuInfo(
                 model = "1",
                 modelName = "AMD Ryzen 7 1700 Eight-Core Processor",
@@ -93,12 +93,12 @@ class CpuInfoLoaderTest {
             on { read(CPU_GOVERNOR)} doReturn ByteArrayInputStream("GOVERNOR".toByteArray())
         }
 
-        val hardwareInfo: HardwareInfo = mock {
+        val deviceInfo: DeviceInfo = mock {
             on { getCpuCoresNumber() } doReturn 4
             on { getPlatformAbi() } doReturn "x86"
         }
 
-        CpuInfoLoader(scheduler, internalDataReader, hardwareInfo).getCpuInfo().test().assertNoErrors().assertValue(
+        CpuInfoLoader(scheduler, internalDataReader, deviceInfo).getCpuInfo().test().assertNoErrors().assertValue(
             CpuInfo(
                 model = "70",
                 modelName = "Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz",
@@ -130,12 +130,12 @@ class CpuInfoLoaderTest {
             on { read(makeClockCommand(3)) } doReturn ByteArrayInputStream("1000".toByteArray())
         }
 
-        val hardwareInfo: HardwareInfo = mock {
+        val deviceInfo: DeviceInfo = mock {
             on { getCpuCoresNumber() } doReturn 4
             on { getPlatformAbi() } doReturn "arm"
         }
 
-        val observer = CpuInfoLoader(scheduler, internalDataReader, hardwareInfo).listenClocks().test()
+        val observer = CpuInfoLoader(scheduler, internalDataReader, deviceInfo).listenClocks().test()
 
         scheduler.advanceTimeBy(4, TimeUnit.SECONDS)
         scheduler.triggerActions()
@@ -147,6 +147,6 @@ class CpuInfoLoaderTest {
         }
 
         verify(internalDataReader,  times(8)).read(any())
-        verify(hardwareInfo,  times(4)).getCpuCoresNumber()
+        verify(deviceInfo,  times(4)).getCpuCoresNumber()
     }
 }

@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 extern "C" JNIEXPORT jint JNICALL
-Java_dev_lucasnlm_arch_soc_NativeHardwareInfo_readCpuCoresNumber(
+Java_dev_lucasnlm_arch_core_system_NativeDeviceInfo_readCpuCoresNumber(
         JNIEnv*,
         jobject) {
 

@@ -1,14 +1,14 @@
-package dev.lucasnlm.arch.soc
+package dev.lucasnlm.arch.core.system
 
 import android.os.Build
 
-interface HardwareInfo {
+interface DeviceInfo {
     fun getCpuCoresNumber(): Int
 
     fun getPlatformAbi(): String
 }
 
-open class NativeHardwareInfo: HardwareInfo {
+open class NativeDeviceInfo: DeviceInfo {
 
     override fun getCpuCoresNumber(): Int = readCpuCoresNumber()
 

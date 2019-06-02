@@ -10,7 +10,7 @@ import dev.lucasnlm.arch.core.view.BaseView
 import org.junit.Test
 
 class BaseFragmentTest {
-    private open class GenericBaseView: BaseView() {
+    private open class GenericBaseView: BaseView {
         override fun onViewCreated(view: View) { }
     }
 

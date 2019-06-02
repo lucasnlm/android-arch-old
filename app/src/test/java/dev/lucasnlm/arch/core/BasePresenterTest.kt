@@ -8,7 +8,7 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class BasePresenterTest {
-    private open class GenericBaseView: BaseView() {
+    private open class GenericBaseView: BaseView {
         override fun onViewCreated(view: View) { }
     }
 

@@ -4,7 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
-import dev.lucasnlm.arch.MainApplication
+import dev.lucasnlm.arch.TestMainApplication
 import dev.lucasnlm.arch.core.di.scope.AppScope
 
 @Component(modules = [
@@ -13,14 +13,14 @@ import dev.lucasnlm.arch.core.di.scope.AppScope
     FragmentModule::class
 ])
 @AppScope
-interface AppComponent : AndroidInjector<MainApplication> {
+interface TestAppComponent : AndroidInjector<TestMainApplication> {
 
     @Component.Builder
     interface Builder {
 
         @BindsInstance
-        fun application(application: MainApplication): Builder
+        fun application(application: TestMainApplication): Builder
 
-        fun build(): AppComponent
+        fun build(): TestAppComponent
     }
 }
