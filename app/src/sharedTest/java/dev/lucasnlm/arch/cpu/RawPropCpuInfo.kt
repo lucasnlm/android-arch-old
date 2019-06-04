@@ -1,6 +1,6 @@
-package dev.lucasnlm.arch.soc.repository
+package dev.lucasnlm.arch.cpu
 
-object MockPropCpuInfo {
+internal object RawPropCpuInfo {
 
     val propCpuInfo1 = """
 
