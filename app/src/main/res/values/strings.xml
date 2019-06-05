@@ -10,6 +10,8 @@
     <string name="soc_gpu_details">Graphics</string>
     <string name="soc_screen_cores">Cores</string>
     <string name="soc_screen_clocks">Clocks</string>
+    <string name="soc_screen_max_clock">Max</string>
+    <string name="soc_screen_min_clock">Min</string>
     <string name="soc_screen_core_n">Core %d</string>
     <string name="soc_screen_value_mhz">%d MHz</string>
     <string name="soc_screen_inactive_core">Inactive</string>

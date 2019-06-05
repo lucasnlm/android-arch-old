@@ -2,6 +2,7 @@ package dev.lucasnlm.arch.soc.presenter
 
 import dev.lucasnlm.arch.core.presenter.BasePresenter
 import dev.lucasnlm.arch.soc.Contract
+import dev.lucasnlm.arch.soc.model.CpuClockInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import dev.lucasnlm.arch.soc.model.GpuInfo
 import dev.lucasnlm.arch.soc.repository.CpuInfoLoader
@@ -28,7 +29,7 @@ class SocInfoPresenter @Inject constructor(
             .addToDisposables()
 
         cpuInfoLoader
-            .listenClocks()
+            .listenClockInfo()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onCpuClocksLoaded, ::onFailToLoadCpuInfo)
             .addToDisposables()
@@ -52,13 +53,16 @@ class SocInfoPresenter @Inject constructor(
     private fun onCpuInfoLoaded(cpuInfo: CpuInfo) {
         view?.run {
             showInfo(cpuInfo)
-            showClocks(cpuInfo.clocks)
             showFlags(cpuInfo.flags)
         }
+
+        onCpuClocksLoaded(cpuInfo.clockInfo)
     }
 
-    private fun onCpuClocksLoaded(clocks: List<Int>) {
-        view?.showClocks(clocks)
+    private fun onCpuClocksLoaded(clockInfo: CpuClockInfo) {
+        clockInfo.run {
+            view?.showClocks(maxClock, minClock, clocks)
+        }
     }
 
     private fun onFailToLoadCpuInfo(throwable: Throwable) {

@@ -2,6 +2,7 @@ package dev.lucasnlm.arch.soc.repository
 
 import dev.lucasnlm.arch.core.system.InternalDataReader
 import dev.lucasnlm.arch.core.system.DeviceInfo
+import dev.lucasnlm.arch.soc.model.CpuClockInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -17,7 +18,7 @@ class CpuInfoLoader @Inject constructor(
 
     fun getCpuInfo(): Observable<CpuInfo> = Observable.fromCallable {
         val propCpuInfo = readPropCpuInfo()
-        val clockList = readClockValues(propCpuInfo)
+        val clockInfo = readClockInfo(propCpuInfo)
 
         CpuInfo(
             model = propCpuInfo["model", "Processor"],
@@ -25,8 +26,8 @@ class CpuInfoLoader @Inject constructor(
             vendor = propCpuInfo["vendor_id", "CPU implementer"],
             architecture = propCpuInfo["CPU architecture"],
             stepping = propCpuInfo["stepping"],
-            clocks = clockList,
-            cpuCores = clockList.size,
+            clockInfo = clockInfo,
+            cpuCores = clockInfo.clocks.size,
             bogoMips = propCpuInfo["BogoMips", "BogoMIPS", "bogomips"],
             abi = deviceInfo.getPlatformAbi(),
             bigLittle = 0,
@@ -38,34 +39,44 @@ class CpuInfoLoader @Inject constructor(
         )
     }
 
-    fun listenClocks(): Observable<List<Int>> = Observable.interval(1, TimeUnit.SECONDS, scheduler).map {
+    fun listenClockInfo(): Observable<CpuClockInfo> = Observable.interval(1, TimeUnit.SECONDS, scheduler).map {
         val propCpuInfo = readPropCpuInfo()
-        readClockValues(propCpuInfo)
+        readClockInfo(propCpuInfo)
     }
 
-    private fun readClockValues(propCpuInfo: List<ProcessorInfo>): List<Int> {
-        val coresCount = deviceInfo.getCpuCoresNumber()
-        return IntArray(coresCount) { 0 }.apply {
+    private fun readClockInfo(propCpuInfo: List<ProcessorInfo>): CpuClockInfo {
+        val coresCount: Int = deviceInfo.getCpuCoresNumber()
+        val clocks = IntArray(coresCount) { 0 }.apply {
             propCpuInfo.mapIndexed { index, processorInfo ->
                 this[index] = processorInfo["cpu MHz"]?.toDouble()?.roundToInt() ?:
                         readCurrentCpuClock(index)?.toDoubleOrNull()?.div(1000.0)?.roundToInt() ?: 0
             }
         }.toList()
+
+        val maxClock = (0 until coresCount).mapNotNull {
+            readMaxCpuClock(it)?.toDoubleOrNull()?.div(1000.0)?.roundToInt()
+        }.max()
+
+        val minClock = (0 until coresCount).mapNotNull {
+            readMinCpuClock(it)?.toDoubleOrNull()?.div(1000.0)?.roundToInt()
+        }.min()
+
+        return CpuClockInfo(clocks, maxClock, minClock)
     }
 
-    private fun readCpuGovernor(): String? =
-        internalDataReader.read(CPU_GOVERNOR).use { inputStream ->
+    private fun readCommand(command: String): String? =
+        internalDataReader.read(command).use { inputStream ->
             inputStream.bufferedReader().readLines().map {
                 it.replace("\t", "")
             }.firstOrNull()
         }
+    private fun readCpuGovernor(): String? = readCommand(CPU_GOVERNOR)
 
-    private fun readCurrentCpuClock(cpuNumber: Int): String? =
-        internalDataReader.read(makeClockCommand(cpuNumber)).use { inputStream ->
-            inputStream.bufferedReader().readLines().map {
-                it.replace("\t", "")
-            }.firstOrNull()
-        }
+    private fun readCurrentCpuClock(cpuNumber: Int): String? = readCommand(makeClockCommand(cpuNumber))
+
+    private fun readMinCpuClock(cpuNumber: Int): String? = readCommand(makeMinClockCommand(cpuNumber))
+
+    private fun readMaxCpuClock(cpuNumber: Int): String? = readCommand(makeMaxClockCommand(cpuNumber))
 
     private fun parseFlags(flags: String?): List<String> = flags?.split(" ").orEmpty()
 
@@ -118,5 +129,11 @@ class CpuInfoLoader @Inject constructor(
 
         fun makeClockCommand(coreNumber: Int): String =
             "/sys/devices/system/cpu/cpu$coreNumber/cpufreq/scaling_cur_freq"
+
+        fun makeMaxClockCommand(coreNumber: Int): String =
+            "/sys/devices/system/cpu/cpu$coreNumber/cpufreq/cpuinfo_max_freq"
+
+        fun makeMinClockCommand(coreNumber: Int): String =
+            "/sys/devices/system/cpu/cpu$coreNumber/cpufreq/cpuinfo_min_freq"
     }
 }

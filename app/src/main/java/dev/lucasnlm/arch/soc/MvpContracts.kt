@@ -8,7 +8,7 @@ interface Contract {
 
     interface View: BaseView {
         fun showInfo(cpuInfo: CpuInfo)
-        fun showClocks(clocks: List<Int>)
+        fun showClocks(maxClock: Int?, minClock: Int?, clocks: List<Int>)
         fun showFlags(flags: List<String>)
         fun showGpuInfo(gpuInfo: GpuInfo)
     }

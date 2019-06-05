@@ -125,21 +125,41 @@ class SocInfoView: Contract.View {
         }
     }
 
-    override fun showClocks(clocks: List<Int>) {
+    override fun showClocks(maxClock: Int?, minClock: Int?, clocks: List<Int>) {
         val context = detailsList.context
 
-        with(clockList.adapter as InfoAdapter) {
-            list = clocks.mapIndexed { index, cpuClock ->
+        val clockItems = ArrayList<NamedInfo>(clocks.size + 2)
+        if (minClock != null) {
+            clockItems.add(
                 NamedInfo(
-                    index.toLong(),
-                    context.getString(R.string.soc_screen_core_n, index),
-                    if (cpuClock == 0) {
-                        context.getString(R.string.soc_screen_inactive_core)
-                    } else {
-                        context.getString(R.string.soc_screen_value_mhz, cpuClock)
+                    name = context.getString(R.string.soc_screen_min_clock),
+                    value = context.getString(R.string.soc_screen_value_mhz, minClock)
+                )
+            )
+        }
+
+        if (maxClock != null) {
+            clockItems.add(
+                NamedInfo(
+                    name = context.getString(R.string.soc_screen_max_clock),
+                    value = context.getString(R.string.soc_screen_value_mhz, maxClock)
+                )
+            )
+        }
+
+        with(clockList.adapter as InfoAdapter) {
+            list = clockItems.plus(
+                    clocks.mapIndexed { index, cpuClock ->
+                        NamedInfo(
+                            name = context.getString(R.string.soc_screen_core_n, index),
+                            value = if (cpuClock == 0) {
+                                context.getString(R.string.soc_screen_inactive_core)
+                            } else {
+                                context.getString(R.string.soc_screen_value_mhz, cpuClock)
+                            }
+                        )
                     }
                 )
-            }
             notifyDataSetChanged()
         }
     }

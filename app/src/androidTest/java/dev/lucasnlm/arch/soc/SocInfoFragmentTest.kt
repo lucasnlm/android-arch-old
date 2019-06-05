@@ -28,9 +28,18 @@ class SocInfoFragmentTest {
             cpuCores.toString().isDisplayed()
             revision.toString().isDisplayed()
 
-            clocks.forEach {
+            clockInfo.clocks.forEach {
                 val clock = it.toDouble().roundToInt()
 
+                if (it == 0) {
+                    "0 MHz".isNotDisplayed()
+                } else {
+                    "$clock MHz".isDisplayed()
+                }
+            }
+
+            clockInfo.maxClock?.let {
+                val clock = it.toDouble().roundToInt()
                 if (it == 0) {
                     "0 MHz".isNotDisplayed()
                 } else {

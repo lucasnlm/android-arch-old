@@ -1,5 +1,6 @@
 package dev.lucasnlm.arch.cpu
 
+import dev.lucasnlm.arch.soc.model.CpuClockInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
 
 internal object SampleCpuInfo {
@@ -10,7 +11,7 @@ internal object SampleCpuInfo {
         revision = "12",
         architecture = "8",
         cpuCores = 4,
-        clocks = listOf(1000, 1500, 500, 0),
+        clockInfo = CpuClockInfo(listOf(1000, 1500, 500, 0), 1500, 500),
         stepping = null,
         bogoMips = "38.40",
         bigLittle = 0,
@@ -28,7 +29,7 @@ internal object SampleCpuInfo {
         revision = null,
         architecture = null,
         cpuCores = 4,
-        clocks = listOf(3798, 3798, 3798, 3798),
+        clockInfo =  CpuClockInfo(listOf(3798, 3798, 3798, 3798), 3798, 3798),
         stepping = "1",
         bogoMips = "7595.88",
         bigLittle = 0,
@@ -46,7 +47,7 @@ internal object SampleCpuInfo {
         revision = null,
         architecture = null,
         cpuCores = 4,
-        clocks = listOf(2195, 2195, 2195, 2195),
+        clockInfo = CpuClockInfo(listOf(2195, 2195, 2195, 2195), 2195, 2195),
         stepping = "1",
         bogoMips = "4389.87",
         bigLittle = 0,
