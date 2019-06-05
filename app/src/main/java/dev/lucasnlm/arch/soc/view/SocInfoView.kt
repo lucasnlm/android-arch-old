@@ -20,7 +20,7 @@ import android.app.ActivityManager
 import dev.lucasnlm.arch.soc.Contract
 import io.reactivex.Observable
 
-class SocInfoView: Contract.View() {
+class SocInfoView: Contract.View {
 
     private lateinit var vendorName: TextView
     private lateinit var modelName: TextView

@@ -6,11 +6,11 @@ import dev.lucasnlm.arch.soc.model.GpuInfo
 
 interface Contract {
 
-    abstract class View: BaseView {
-        abstract fun showInfo(cpuInfo: CpuInfo)
-        abstract fun showClocks(clocks: List<Int>)
-        abstract fun showFlags(flags: List<String>)
-        abstract fun showGpuInfo(gpuInfo: GpuInfo)
+    interface View: BaseView {
+        fun showInfo(cpuInfo: CpuInfo)
+        fun showClocks(clocks: List<Int>)
+        fun showFlags(flags: List<String>)
+        fun showGpuInfo(gpuInfo: GpuInfo)
     }
 
     interface Presenter {
