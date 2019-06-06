@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dev.lucasnlm.arch.soc.SocInfoFragment
 import dev.lucasnlm.arch.soc.di.SocInfoModule
+import dev.lucasnlm.arch.system.SystemInfoFragment
+import dev.lucasnlm.arch.system.di.SystemInfoModule
 
 @Module
 abstract class FragmentModule {
@@ -12,4 +14,9 @@ abstract class FragmentModule {
         modules = [ SocInfoModule::class ]
     )
     abstract fun contributeSocInfoFragment(): SocInfoFragment
+
+    @ContributesAndroidInjector(
+        modules = [ SystemInfoModule::class ]
+    )
+    abstract fun contributeSystemInfoFragment(): SystemInfoFragment
 }

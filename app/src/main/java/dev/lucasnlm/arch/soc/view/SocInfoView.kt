@@ -129,20 +129,20 @@ class SocInfoView: Contract.View {
         val context = detailsList.context
 
         val clockItems = ArrayList<NamedInfo>(clocks.size + 2)
-        if (minClock != null) {
+        minClock?.let {
             clockItems.add(
                 NamedInfo(
                     name = context.getString(R.string.soc_screen_min_clock),
-                    value = context.getString(R.string.soc_screen_value_mhz, minClock)
+                    value = context.getString(R.string.soc_screen_value_mhz, it)
                 )
             )
         }
 
-        if (maxClock != null) {
+        maxClock?.let {
             clockItems.add(
                 NamedInfo(
                     name = context.getString(R.string.soc_screen_max_clock),
-                    value = context.getString(R.string.soc_screen_value_mhz, maxClock)
+                    value = context.getString(R.string.soc_screen_value_mhz, it)
                 )
             )
         }
@@ -155,7 +155,7 @@ class SocInfoView: Contract.View {
                             value = if (cpuClock == 0) {
                                 context.getString(R.string.soc_screen_inactive_core)
                             } else {
-                                context.getString(R.string.soc_screen_value_mhz, cpuClock)
+                                 context.getString(R.string.soc_screen_value_mhz, cpuClock)
                             }
                         )
                     }
