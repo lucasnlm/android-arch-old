@@ -1,5 +1,9 @@
 package dev.lucasnlm.arch.system.model
 
 data class SystemInfo(
-    val androidVersion: String
+    val androidApi: Int,
+    val androidName: String?,
+    val productInfo: ProductInfo,
+    val brand: BrandInfo,
+    val version: VersionInfo
 )

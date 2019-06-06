@@ -65,15 +65,17 @@ class SocInfoPresenter @Inject constructor(
         }
     }
 
-    private fun onFailToLoadCpuInfo(throwable: Throwable) {
-        throwable.printStackTrace()
-    }
-
     private fun onGpuInfoLoaded(gpuInfo: GpuInfo) {
         view?.showGpuInfo(gpuInfo)
     }
 
+    private fun onFailToLoadCpuInfo(throwable: Throwable) {
+        // TODO handle error
+        throwable.printStackTrace()
+    }
+
     private fun onFailToLoadGpuInfo(throwable: Throwable) {
+        // TODO handle error
         throwable.printStackTrace()
     }
 }
