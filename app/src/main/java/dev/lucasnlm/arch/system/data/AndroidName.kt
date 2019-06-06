@@ -2,6 +2,10 @@ package dev.lucasnlm.arch.system.data
 
 object AndroidName {
 
+    /**
+     * @param api target Android API
+     * @return the Android name given it's API version or null if unknown.
+     */
     internal fun fromApi(api: Int): String? = when (api) {
         2 -> "Petit Four"
         3 -> "Cupcake"
