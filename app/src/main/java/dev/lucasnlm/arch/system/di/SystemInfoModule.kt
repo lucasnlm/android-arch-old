@@ -17,10 +17,10 @@ open class SystemInfoModule {
     fun provideSystemInfoView(): SystemInfoView = SystemInfoView()
 
     @Provides
-    fun provideSystemInfoPresenter(): SystemInfoPresenter = SystemInfoPresenter(provideSystemInfoInterector())
+    fun provideSystemInfoPresenter(): SystemInfoPresenter = SystemInfoPresenter(provideSystemInfoInteractor())
 
     @Provides
-    fun provideSystemInfoInterector(): SystemInfoInteractor = SystemInfoInteractor(provideSystemInfoRepository())
+    fun provideSystemInfoInteractor(): SystemInfoInteractor = SystemInfoInteractor(provideSystemInfoRepository())
 
     @Provides
     fun provideCpuInfoLoader(): SystemInfoLoader = SystemInfoLoader()
