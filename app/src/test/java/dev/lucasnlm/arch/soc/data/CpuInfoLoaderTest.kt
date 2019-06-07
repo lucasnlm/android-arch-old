@@ -1,14 +1,14 @@
-package dev.lucasnlm.arch.soc.repository
+package dev.lucasnlm.arch.soc.data
 
 import com.nhaarman.mockitokotlin2.*
 import dev.lucasnlm.arch.core.system.InternalDataReader
 import dev.lucasnlm.arch.core.system.DeviceInfo
 import dev.lucasnlm.arch.cpu.MockCpuInfo
-import dev.lucasnlm.arch.soc.repository.CpuInfoLoader.Companion.CPU_INFO_COMMAND
-import dev.lucasnlm.arch.soc.repository.CpuInfoLoader.Companion.CPU_GOVERNOR
-import dev.lucasnlm.arch.soc.repository.CpuInfoLoader.Companion.makeClockCommand
-import dev.lucasnlm.arch.soc.repository.CpuInfoLoader.Companion.makeMaxClockCommand
-import dev.lucasnlm.arch.soc.repository.CpuInfoLoader.Companion.makeMinClockCommand
+import dev.lucasnlm.arch.soc.data.CpuInfoLoader.Companion.CPU_INFO_COMMAND
+import dev.lucasnlm.arch.soc.data.CpuInfoLoader.Companion.CPU_GOVERNOR
+import dev.lucasnlm.arch.soc.data.CpuInfoLoader.Companion.makeClockCommand
+import dev.lucasnlm.arch.soc.data.CpuInfoLoader.Companion.makeMaxClockCommand
+import dev.lucasnlm.arch.soc.data.CpuInfoLoader.Companion.makeMinClockCommand
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Test
 import java.io.ByteArrayInputStream

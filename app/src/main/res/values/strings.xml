@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Arch</string>
 
-    <!-- Screen -->
+    <!-- SoC screen -->
     <string name="soc_screen_vendor_image">Vendor Image</string>
     <string name="soc_screen_vendor">Vendor</string>
     <string name="soc_screen_abi">ABI</string>
@@ -24,6 +24,10 @@
     <string name="soc_gpu_renderer">Renderer</string>
     <string name="soc_gpu_version">Version</string>
     <string name="unknown">Unknown</string>
+
+    <!-- System screen -->
+    <string name="sys_screen_android_name">Android</string>
+    <string name="sys_screen_android_api">API</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>

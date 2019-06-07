@@ -5,7 +5,7 @@ import dagger.Provides
 import dev.lucasnlm.arch.core.system.InternalDataReader
 import dev.lucasnlm.arch.core.system.DeviceInfo
 import dev.lucasnlm.arch.cpu.MockCpuInfo
-import dev.lucasnlm.arch.soc.repository.CpuInfoLoader
+import dev.lucasnlm.arch.soc.data.CpuInfoLoader
 import dev.lucasnlm.arch.cpu.RawPropCpuInfo
 import java.io.ByteArrayInputStream
 import java.io.InputStream

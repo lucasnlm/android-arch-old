@@ -1,4 +1,4 @@
-package dev.lucasnlm.arch.soc.repository
+package dev.lucasnlm.arch.soc.data
 
 import dev.lucasnlm.arch.core.system.InternalDataReader
 import dev.lucasnlm.arch.core.system.DeviceInfo
@@ -6,6 +6,7 @@ import dev.lucasnlm.arch.soc.model.CpuClockInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import io.reactivex.Observable
 import io.reactivex.Scheduler
+import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -16,7 +17,7 @@ class CpuInfoLoader @Inject constructor(
     private val deviceInfo: DeviceInfo
 ) {
 
-    fun getCpuInfo(): Observable<CpuInfo> = Observable.fromCallable {
+    fun getCpuInfo(): Single<CpuInfo> = Single.fromCallable {
         val propCpuInfo = readPropCpuInfo()
         val clockInfo = readClockInfo(propCpuInfo)
 
@@ -72,11 +73,23 @@ class CpuInfoLoader @Inject constructor(
         }
     private fun readCpuGovernor(): String? = readCommand(CPU_GOVERNOR)
 
-    private fun readCurrentCpuClock(cpuNumber: Int): String? = readCommand(makeClockCommand(cpuNumber))
+    private fun readCurrentCpuClock(cpuNumber: Int): String? = readCommand(
+        makeClockCommand(
+            cpuNumber
+        )
+    )
 
-    private fun readMinCpuClock(cpuNumber: Int): String? = readCommand(makeMinClockCommand(cpuNumber))
+    private fun readMinCpuClock(cpuNumber: Int): String? = readCommand(
+        makeMinClockCommand(
+            cpuNumber
+        )
+    )
 
-    private fun readMaxCpuClock(cpuNumber: Int): String? = readCommand(makeMaxClockCommand(cpuNumber))
+    private fun readMaxCpuClock(cpuNumber: Int): String? = readCommand(
+        makeMaxClockCommand(
+            cpuNumber
+        )
+    )
 
     private fun parseFlags(flags: String?): List<String> = flags?.split(" ").orEmpty()
 

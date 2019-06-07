@@ -1,11 +1,5 @@
 package dev.lucasnlm.arch.soc.model
 
-data class CpuClockInfo(
-    val clocks: List<Int>,
-    val maxClock: Int?,
-    val minClock: Int?
-)
-
 data class CpuInfo(
     val model: String?,
     val modelName: String?,

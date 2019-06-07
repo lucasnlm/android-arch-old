@@ -1,19 +1,20 @@
 package dev.lucasnlm.arch.soc.presenter
 
 import dev.lucasnlm.arch.core.presenter.BasePresenter
-import dev.lucasnlm.arch.soc.Contract
+import dev.lucasnlm.arch.soc.Contracts
 import dev.lucasnlm.arch.soc.model.CpuClockInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import dev.lucasnlm.arch.soc.model.GpuInfo
-import dev.lucasnlm.arch.soc.repository.CpuInfoLoader
+import dev.lucasnlm.arch.soc.data.CpuInfoLoader
+import dev.lucasnlm.arch.soc.interactor.SocInfoInteractor
 import dev.lucasnlm.arch.soc.view.SocInfoView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 import javax.microedition.khronos.opengles.GL10
 
 class SocInfoPresenter @Inject constructor(
-    private val cpuInfoLoader: CpuInfoLoader
-) : BasePresenter<SocInfoView>(), Contract.Presenter {
+    private val socInfoInteractor: SocInfoInteractor
+) : BasePresenter<SocInfoView>(), Contracts.Presenter {
 
     override fun onCreate() {
         super.onCreate()
@@ -22,13 +23,13 @@ class SocInfoPresenter @Inject constructor(
     }
 
     override fun loadCpuInfo() {
-        cpuInfoLoader
+        socInfoInteractor
             .getCpuInfo()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onCpuInfoLoaded, ::onFailToLoadCpuInfo)
             .addToDisposables()
 
-        cpuInfoLoader
+        socInfoInteractor
             .listenClockInfo()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onCpuClocksLoaded, ::onFailToLoadCpuInfo)
@@ -65,15 +66,17 @@ class SocInfoPresenter @Inject constructor(
         }
     }
 
-    private fun onFailToLoadCpuInfo(throwable: Throwable) {
-        throwable.printStackTrace()
-    }
-
     private fun onGpuInfoLoaded(gpuInfo: GpuInfo) {
         view?.showGpuInfo(gpuInfo)
     }
 
+    private fun onFailToLoadCpuInfo(throwable: Throwable) {
+        // TODO handle error
+        throwable.printStackTrace()
+    }
+
     private fun onFailToLoadGpuInfo(throwable: Throwable) {
+        // TODO handle error
         throwable.printStackTrace()
     }
 }

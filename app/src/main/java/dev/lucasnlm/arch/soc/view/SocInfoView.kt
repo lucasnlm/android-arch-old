@@ -17,10 +17,10 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import android.content.pm.ConfigurationInfo
 import android.app.ActivityManager
-import dev.lucasnlm.arch.soc.Contract
+import dev.lucasnlm.arch.soc.Contracts
 import io.reactivex.Observable
 
-class SocInfoView: Contract.View {
+class SocInfoView: Contracts.View {
 
     private lateinit var vendorName: TextView
     private lateinit var modelName: TextView
