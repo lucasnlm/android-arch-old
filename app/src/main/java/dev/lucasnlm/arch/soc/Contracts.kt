@@ -1,10 +1,13 @@
 package dev.lucasnlm.arch.soc
 
 import dev.lucasnlm.arch.core.view.BaseView
+import dev.lucasnlm.arch.soc.model.CpuClockInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import dev.lucasnlm.arch.soc.model.GpuInfo
+import io.reactivex.Observable
+import io.reactivex.Single
 
-interface Contract {
+interface Contracts {
 
     interface View: BaseView {
         fun showInfo(cpuInfo: CpuInfo)
@@ -16,5 +19,10 @@ interface Contract {
     interface Presenter {
         fun loadCpuInfo()
         fun loadGpuInfo()
+    }
+
+    interface Interactor {
+        fun getCpuInfo(): Single<CpuInfo>
+        fun listenClockInfo(): Observable<CpuClockInfo>
     }
 }

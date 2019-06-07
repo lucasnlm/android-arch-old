@@ -18,7 +18,6 @@ interface SocInfoComponent {
 
     @Component.Builder
     interface Builder {
-
         fun commonModule(module: DeviceModule): Builder
 
         fun build(): SocInfoComponent
