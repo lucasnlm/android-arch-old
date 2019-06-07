@@ -15,6 +15,7 @@ class SystemInfoLoader: InfoLoader<SystemInfo> {
             androidApi = Build.VERSION.SDK_INT,
             androidName = AndroidName.fromApi(Build.VERSION.SDK_INT),
             productInfo = ProductInfo(
+                model = Build.MODEL,
                 product = Build.PRODUCT,
                 deviceName = Build.DEVICE,
                 boardName = Build.BOARD,
@@ -28,7 +29,7 @@ class SystemInfoLoader: InfoLoader<SystemInfo> {
                 base = takeIfApi(Build.VERSION_CODES.M) { Build.VERSION.BASE_OS } ,
                 release = Build.VERSION.RELEASE,
                 securityPatch = takeIfApi(Build.VERSION_CODES.M) { Build.VERSION.SECURITY_PATCH },
-                codeName = Build.VERSION.CODENAME
+                codename = Build.VERSION.CODENAME
             )
         )
     )
