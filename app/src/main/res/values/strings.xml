@@ -28,6 +28,7 @@
     <!-- System screen -->
     <string name="sys_screen_android_name">Android</string>
     <string name="sys_screen_android_api">API</string>
+    <string name="sys_screen_model">Model</string>
     <string name="sys_screen_product">Product</string>
     <string name="sys_screen_device_name">Device</string>
     <string name="sys_screen_bootloader">Bootloader</string>

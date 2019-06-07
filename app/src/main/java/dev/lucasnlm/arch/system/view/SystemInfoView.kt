@@ -47,6 +47,10 @@ class SystemInfoView: Contracts.View {
         with(productList.adapter as InfoAdapter) {
             list = listOf(
                 NamedInfo(
+                    name = context.getString(R.string.sys_screen_model),
+                    value = systemInfo.productInfo.model
+                ),
+                NamedInfo(
                     name = context.getString(R.string.sys_screen_product),
                     value = systemInfo.productInfo.product
                 ),

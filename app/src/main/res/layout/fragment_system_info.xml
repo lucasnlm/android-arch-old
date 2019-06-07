@@ -34,7 +34,7 @@
                 android:id="@+id/product_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/soc_screen_details"
+                android:text="@string/sys_screen_brand"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:layout_marginTop="8dp"

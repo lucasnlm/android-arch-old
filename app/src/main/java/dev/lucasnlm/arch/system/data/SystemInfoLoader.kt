@@ -15,6 +15,7 @@ class SystemInfoLoader: InfoLoader<SystemInfo> {
             androidApi = Build.VERSION.SDK_INT,
             androidName = AndroidName.fromApi(Build.VERSION.SDK_INT),
             productInfo = ProductInfo(
+                model = Build.MODEL,
                 product = Build.PRODUCT,
                 deviceName = Build.DEVICE,
                 boardName = Build.BOARD,
