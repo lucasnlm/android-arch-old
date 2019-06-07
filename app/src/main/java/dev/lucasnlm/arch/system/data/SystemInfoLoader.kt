@@ -28,7 +28,7 @@ class SystemInfoLoader: InfoLoader<SystemInfo> {
                 base = takeIfApi(Build.VERSION_CODES.M) { Build.VERSION.BASE_OS } ,
                 release = Build.VERSION.RELEASE,
                 securityPatch = takeIfApi(Build.VERSION_CODES.M) { Build.VERSION.SECURITY_PATCH },
-                codeName = Build.VERSION.CODENAME
+                codename = Build.VERSION.CODENAME
             )
         )
     )

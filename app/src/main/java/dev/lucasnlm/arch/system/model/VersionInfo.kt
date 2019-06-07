@@ -4,5 +4,5 @@ data class VersionInfo(
     val base: String?,
     val release: String,
     val securityPatch: String?,
-    val codeName: String
+    val codename: String
 )
