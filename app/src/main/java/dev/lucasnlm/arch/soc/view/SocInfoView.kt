@@ -17,6 +17,7 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import android.content.pm.ConfigurationInfo
 import android.app.ActivityManager
+import dev.lucasnlm.arch.common.view.setupList
 import dev.lucasnlm.arch.soc.Contracts
 import io.reactivex.Observable
 
@@ -37,23 +38,9 @@ class SocInfoView: Contracts.View {
         vendorName = view.findViewById(R.id.vendor_name)
         modelName = view.findViewById(R.id.model_name)
 
-        detailsList = view.findViewById<RecyclerView>(R.id.details_list).apply {
-            adapter = InfoAdapter()
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        }
-
-        clockList = view.findViewById<RecyclerView>(R.id.clock_list).apply {
-            adapter = InfoAdapter()
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        }
-
-        gpuList = view.findViewById<RecyclerView>(R.id.gpu_list).apply {
-            adapter = InfoAdapter()
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        }
+        detailsList = view.setupList(R.id.details_list)
+        clockList = view.setupList(R.id.clock_list)
+        gpuList = view.setupList(R.id.gpu_list)
 
         flagsList = view.findViewById(R.id.flags_list)
         glSurface = view.findViewById<GLSurfaceView>(R.id.gl_surface).apply {

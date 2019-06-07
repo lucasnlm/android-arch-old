@@ -28,6 +28,17 @@
     <!-- System screen -->
     <string name="sys_screen_android_name">Android</string>
     <string name="sys_screen_android_api">API</string>
+    <string name="sys_screen_product">Product</string>
+    <string name="sys_screen_device_name">Device</string>
+    <string name="sys_screen_bootloader">Bootloader</string>
+    <string name="sys_screen_board_name">Board</string>
+    <string name="sys_screen_brand">Brand</string>
+    <string name="sys_screen_manufacturer">Manufacturer</string>
+    <string name="sys_version_base">Base</string>
+    <string name="sys_version_codename">Codename</string>
+    <string name="sys_version_release">Release</string>
+    <string name="sys_version_security_path">Security Path</string>
+    <string name="sys_screen_version">Version</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
