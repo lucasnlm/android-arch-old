@@ -115,7 +115,7 @@ class SocInfoView: Contracts.View {
     override fun showClocks(maxClock: Int?, minClock: Int?, clocks: List<Int>) {
         val context = detailsList.context
 
-        val clockItems = ArrayList<NamedInfo>(clocks.size + 2)
+        val clockItems = mutableListOf<NamedInfo>()
         minClock?.let {
             clockItems.add(
                 NamedInfo(

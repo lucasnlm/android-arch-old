@@ -9,7 +9,7 @@ import dev.lucasnlm.arch.common.model.NamedInfo
 
 class InfoAdapter: RecyclerView.Adapter<InfoViewHolder>() {
 
-    var list: List<Info> = ArrayList()
+    var list = listOf<Info>()
 
     init {
         setHasStableIds(true)

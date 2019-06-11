@@ -1,8 +1,6 @@
 package dev.lucasnlm.arch.system.view
 
 import android.view.View
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.lucasnlm.arch.R
 import dev.lucasnlm.arch.common.model.NamedInfo

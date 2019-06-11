@@ -11,7 +11,6 @@ import dev.lucasnlm.arch.soc.data.CpuInfoLoader.Companion.makeMaxClockCommand
 import dev.lucasnlm.arch.soc.data.CpuInfoLoader.Companion.makeMinClockCommand
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Test
-import java.io.ByteArrayInputStream
 import java.util.concurrent.TimeUnit
 
 class CpuInfoLoaderTest {
@@ -21,15 +20,15 @@ class CpuInfoLoaderTest {
     @Test
     fun testGetCpuInfo1() {
         val internalDataReader: InternalDataReader = mock {
-            on { read(CPU_INFO_COMMAND) } doReturn ByteArrayInputStream(MockCpuInfo.mockCpuInfo1.first.toByteArray())
-            on { read(CPU_GOVERNOR)} doReturn ByteArrayInputStream(MockCpuInfo.mockGovernor.toByteArray())
-            on { read(makeClockCommand(0)) } doReturn ByteArrayInputStream("1000000".toByteArray())
-            on { read(makeClockCommand(1)) } doReturn ByteArrayInputStream("1500000".toByteArray())
-            on { read(makeClockCommand(2)) } doReturn ByteArrayInputStream("500000".toByteArray())
-            on { read(makeClockCommand(3)) } doReturn ByteArrayInputStream("0".toByteArray())
+            on { read(CPU_INFO_COMMAND) } doReturn MockCpuInfo.mockCpuInfo1.first
+            on { read(CPU_GOVERNOR)} doReturn MockCpuInfo.mockGovernor
+            on { read(makeClockCommand(0)) } doReturn "1000000"
+            on { read(makeClockCommand(1)) } doReturn "1500000"
+            on { read(makeClockCommand(2)) } doReturn "500000"
+            on { read(makeClockCommand(3)) } doReturn "0"
             repeat(4) {
-                on { read(makeMaxClockCommand(it)) } doReturn ByteArrayInputStream("1500000".toByteArray())
-                on { read(makeMinClockCommand(it)) } doReturn ByteArrayInputStream("500000".toByteArray())
+                on { read(makeMaxClockCommand(it)) } doReturn "1500000"
+                on { read(makeMinClockCommand(it)) } doReturn "500000"
             }
         }
 
@@ -46,11 +45,11 @@ class CpuInfoLoaderTest {
     @Test
     fun testGetCpuInfo2() {
         val internalDataReader: InternalDataReader = mock {
-            on { read(CPU_INFO_COMMAND) } doReturn ByteArrayInputStream(MockCpuInfo.mockCpuInfo2.first.toByteArray())
-            on { read(CPU_GOVERNOR)} doReturn ByteArrayInputStream(MockCpuInfo.mockGovernor.toByteArray())
+            on { read(CPU_INFO_COMMAND) } doReturn MockCpuInfo.mockCpuInfo2.first
+            on { read(CPU_GOVERNOR)} doReturn MockCpuInfo.mockGovernor
             repeat(4) {
-                on { read(makeMaxClockCommand(it)) } doReturn ByteArrayInputStream("3798000".toByteArray())
-                on { read(makeMinClockCommand(it)) } doReturn ByteArrayInputStream("3798000".toByteArray())
+                on { read(makeMaxClockCommand(it)) } doReturn "3798000"
+                on { read(makeMinClockCommand(it)) } doReturn "3798000"
             }
         }
 
@@ -67,11 +66,11 @@ class CpuInfoLoaderTest {
     @Test
     fun testGetCpuInfo3() {
         val internalDataReader: InternalDataReader = mock {
-            on { read(CPU_INFO_COMMAND) } doReturn ByteArrayInputStream(MockCpuInfo.mockCpuInfo3.first.toByteArray())
-            on { read(CPU_GOVERNOR)} doReturn ByteArrayInputStream(MockCpuInfo.mockGovernor.toByteArray())
+            on { read(CPU_INFO_COMMAND) } doReturn MockCpuInfo.mockCpuInfo3.first
+            on { read(CPU_GOVERNOR)} doReturn MockCpuInfo.mockGovernor
             repeat(4) {
-                on { read(makeMaxClockCommand(it)) } doReturn ByteArrayInputStream("2195000".toByteArray())
-                on { read(makeMinClockCommand(it)) } doReturn ByteArrayInputStream("2195000".toByteArray())
+                on { read(makeMaxClockCommand(it)) } doReturn "2195000"
+                on { read(makeMinClockCommand(it)) } doReturn "2195000"
             }
         }
 
@@ -87,13 +86,14 @@ class CpuInfoLoaderTest {
 
     @Test
     fun testListenClocks() {
+        val numberOfCores = 4
         val internalDataReader: InternalDataReader = mock {
-            on { read(CPU_INFO_COMMAND) } doReturn ByteArrayInputStream(MockCpuInfo.mockCpuInfo1.first.toByteArray())
-            on { read(CPU_GOVERNOR)} doReturn ByteArrayInputStream(MockCpuInfo.mockGovernor.toByteArray())
-            repeat(4) {
-                on { read(makeClockCommand(it)) } doReturn ByteArrayInputStream("1000".toByteArray())
-                on { read(makeMinClockCommand(it)) } doReturn ByteArrayInputStream("1000".toByteArray())
-                on { read(makeMaxClockCommand(it)) } doReturn ByteArrayInputStream("1000".toByteArray())
+            on { read(CPU_INFO_COMMAND) } doReturn MockCpuInfo.mockCpuInfo1.first
+            on { read(CPU_GOVERNOR)} doReturn MockCpuInfo.mockGovernor
+            repeat(numberOfCores) {
+                on { read(makeClockCommand(it)) } doReturn "1000"
+                on { read(makeMinClockCommand(it)) } doReturn "1000"
+                on { read(makeMaxClockCommand(it)) } doReturn "1000"
             }
         }
 
@@ -104,7 +104,8 @@ class CpuInfoLoaderTest {
 
         val observer = CpuInfoLoader(scheduler, internalDataReader, deviceInfo).listenClockInfo().test()
 
-        scheduler.advanceTimeBy(4, TimeUnit.SECONDS)
+        val seconds = 8
+        scheduler.advanceTimeBy(seconds.toLong(), TimeUnit.SECONDS)
         scheduler.triggerActions()
 
         observer.run {
@@ -113,10 +114,10 @@ class CpuInfoLoaderTest {
             assertNotComplete()
         }
 
-        repeat(4) {
-            verify(internalDataReader).read(makeClockCommand(it))
-            verify(internalDataReader, times(4)).read(makeMinClockCommand(it))
-            verify(internalDataReader, times(4)).read(makeMaxClockCommand(it))
+        repeat(numberOfCores) {
+            verify(internalDataReader, times(seconds)).read(makeClockCommand(it))
+            verify(internalDataReader, times(seconds)).read(makeMinClockCommand(it))
+            verify(internalDataReader, times(seconds)).read(makeMaxClockCommand(it))
         }
     }
 }
