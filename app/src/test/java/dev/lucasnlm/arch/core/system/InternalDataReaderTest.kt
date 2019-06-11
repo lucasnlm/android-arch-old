@@ -15,16 +15,10 @@ class InternalDataReaderTest {
             writeText(content)
         }
 
-        val internalDataReader = InternalDataReader()
-
         assertTrue(file.exists())
 
-        val readText: String = internalDataReader.read(fileName).use { inputStream ->
-            inputStream.bufferedReader().readLines().map {
-                it.replace("\t", "")
-            }.firstOrNull().toString()
-        }
-
+        val internalDataReader = InternalDataReader()
+        val readText: String = internalDataReader.read(fileName)
         assertEquals(content, readText)
         file.delete()
     }
