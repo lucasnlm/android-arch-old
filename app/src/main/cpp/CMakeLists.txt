@@ -18,7 +18,8 @@ add_library(
         SHARED
 
         # Provides a relative path to your source file(s).
-        native-lib.cpp
+        native_lib.cpp
+        native_data_reader.cpp
 )
 
 
@@ -30,3 +31,8 @@ target_link_libraries(
         # Specifies the target library.
         native-lib
 )
+
+target_include_directories(native-lib PRIVATE ./)
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -std=c++17")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -std=c++17")

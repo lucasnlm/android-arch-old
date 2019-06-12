@@ -1,6 +1,6 @@
 package dev.lucasnlm.arch.soc.data
 
-import dev.lucasnlm.arch.core.system.InternalDataReader
+import dev.lucasnlm.arch.core.system.DataReader
 import dev.lucasnlm.arch.core.system.DeviceInfo
 import dev.lucasnlm.arch.soc.model.CpuClockInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
@@ -13,7 +13,7 @@ import kotlin.math.roundToInt
 
 class CpuInfoLoader @Inject constructor(
     private val scheduler: Scheduler,
-    private val internalDataReader: InternalDataReader,
+    private val dataReader: DataReader,
     private val deviceInfo: DeviceInfo
 ) {
 
@@ -65,7 +65,7 @@ class CpuInfoLoader @Inject constructor(
         return CpuClockInfo(clocks, maxClock, minClock)
     }
 
-    private fun readCommand(command: String): String? = internalDataReader.read(command).removeTabsAndNewLines()
+    private fun readCommand(command: String): String? = dataReader.read(command).removeTabsAndNewLines()
 
     private fun readCpuGovernor(): String? = readCommand(CPU_GOVERNOR)
 
@@ -80,7 +80,7 @@ class CpuInfoLoader @Inject constructor(
     private fun readPropCpuInfo(): List<ProcessorInfo> {
         return mutableListOf<ProcessorInfo>().apply {
             var currentProcessor = 0
-            internalDataReader.read(CPU_INFO_COMMAND).lines().asSequence().map {
+            dataReader.read(CPU_INFO_COMMAND).lines().asSequence().map {
                 it.removeTabsAndNewLines()
             }.filter {
                 it.isNotEmpty()
