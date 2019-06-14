@@ -5,6 +5,7 @@ import android.widget.FrameLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import dev.lucasnlm.arch.device.DeviceInfoFragment
 import dev.lucasnlm.arch.soc.SocInfoFragment
 import dev.lucasnlm.arch.system.SystemInfoFragment
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.navigation_system -> {
-                loadFragment(FragmentId.SOC_INFO_FRAGMENT)
+                loadFragment(FragmentId.DEVICE_INFO_FRAGMENT)
                 true
             }
             else -> false
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         val fragment: Fragment = when(fragmentId) {
             FragmentId.SOC_INFO_FRAGMENT -> SocInfoFragment()
             FragmentId.SYSTEM_INFO_FRAGMENT -> SystemInfoFragment()
+            FragmentId.DEVICE_INFO_FRAGMENT -> DeviceInfoFragment()
         }
 
         supportFragmentManager.beginTransaction()
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     private enum class FragmentId {
         SOC_INFO_FRAGMENT,
-        SYSTEM_INFO_FRAGMENT
+        SYSTEM_INFO_FRAGMENT,
+        DEVICE_INFO_FRAGMENT
     }
 }

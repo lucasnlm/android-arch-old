@@ -41,6 +41,9 @@
     <string name="sys_version_security_path">Security Path</string>
     <string name="sys_screen_version">Version</string>
 
+    <!-- Device screen -->
+    <string name="soc_screen_display">Display</string>
+
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
