@@ -8,4 +8,8 @@ class MainApplication: DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
         DaggerAppComponent.builder().application(this).build()
+
+    init {
+        System.loadLibrary("native-lib")
+    }
 }
