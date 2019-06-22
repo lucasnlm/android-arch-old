@@ -46,7 +46,7 @@
                     android:id="@+id/vendor_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_dark"
+                    android:textColor="@color/primaryTextColor"
                     tools:text="Vendor Name"/>
 
             <TextView
@@ -61,7 +61,7 @@
                     android:id="@+id/model_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_dark"
+                    android:textColor="@color/primaryTextColor"
                     tools:text="Model Name"/>
         </LinearLayout>
 

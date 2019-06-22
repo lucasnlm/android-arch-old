@@ -6,5 +6,5 @@ import dev.lucasnlm.arch.system.presenter.SystemInfoPresenter
 import dev.lucasnlm.arch.system.view.SystemInfoView
 
 open class SystemInfoFragment: BaseFragment<SystemInfoView, SystemInfoPresenter>() {
-    override val fragmentLayout: Int = R.layout.fragment_system_info
+    override val layoutRes: Int = R.layout.fragment_system_info
 }

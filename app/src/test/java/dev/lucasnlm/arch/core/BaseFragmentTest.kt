@@ -1,5 +1,7 @@
 package dev.lucasnlm.arch.core
 
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
@@ -17,8 +19,7 @@ class BaseFragmentTest {
     private open class GenericPresenter: BasePresenter<GenericBaseView>()
 
     private class MockBaseFragment: BaseFragment<GenericBaseView, GenericPresenter>() {
-        override val fragmentLayout: Int
-            get() = 1
+        override val layoutRes: Int = 1
     }
 
     @Test

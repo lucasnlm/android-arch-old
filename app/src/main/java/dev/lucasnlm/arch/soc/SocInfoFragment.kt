@@ -6,5 +6,5 @@ import dev.lucasnlm.arch.soc.presenter.SocInfoPresenter
 import dev.lucasnlm.arch.soc.view.SocInfoView
 
 open class SocInfoFragment: BaseFragment<SocInfoView, SocInfoPresenter>() {
-    override val fragmentLayout: Int = R.layout.fragment_soc_info
+    override val layoutRes: Int = R.layout.fragment_soc_info
 }

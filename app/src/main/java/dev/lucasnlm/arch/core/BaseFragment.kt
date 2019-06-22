@@ -17,10 +17,10 @@ abstract class BaseFragment<U: BaseView, T : BasePresenter<U>>: DaggerFragment()
     @Inject
     lateinit var mvpView: U
 
-    protected abstract val fragmentLayout: Int
+    protected abstract val layoutRes: Int
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(fragmentLayout, container, false)
+        inflater.inflate(layoutRes, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

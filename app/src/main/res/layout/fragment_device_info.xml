@@ -15,7 +15,7 @@
                 android:id="@+id/screen_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/soc_screen_display"
+                android:text="@string/dev_screen_display"
                 android:textSize="12sp"
                 android:textStyle="bold"/>
 

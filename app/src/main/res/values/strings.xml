@@ -2,6 +2,7 @@
     <string name="app_name">Arch</string>
 
     <!-- SoC screen -->
+    <string name="soc_title">CPU</string>
     <string name="soc_screen_vendor_image">Vendor Image</string>
     <string name="soc_screen_vendor">Vendor</string>
     <string name="soc_screen_abi">ABI</string>
@@ -26,6 +27,7 @@
     <string name="unknown">Unknown</string>
 
     <!-- System screen -->
+    <string name="sys_title">System</string>
     <string name="sys_screen_android_name">Android</string>
     <string name="sys_screen_android_api">API</string>
     <string name="sys_screen_model">Model</string>
@@ -42,7 +44,14 @@
     <string name="sys_screen_version">Version</string>
 
     <!-- Device screen -->
-    <string name="soc_screen_display">Display</string>
+    <string name="dev_title">Device</string>
+    <string name="dev_screen_display">Display</string>
+
+    <!-- Sensors screen -->
+    <string name="sen_title">Sensors</string>
+
+    <!-- About screen -->
+    <string name="abt_title">About</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>

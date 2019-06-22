@@ -10,7 +10,8 @@ import dev.lucasnlm.arch.core.di.scope.AppScope
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     DeviceModule::class,
-    FragmentModule::class
+    FragmentModule::class,
+    ActivityModule::class
 ])
 @AppScope
 interface AppComponent : AndroidInjector<MainApplication> {

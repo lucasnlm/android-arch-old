@@ -16,7 +16,7 @@ interface DeviceInfoComponent {
 
     @Component.Builder
     interface Builder {
-        fun commonModule(module: DeviceInfoModule): Builder
+        fun deviceInfoModule(module: DeviceInfoModule): Builder
 
         fun build(): DeviceInfoComponent
     }
