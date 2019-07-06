@@ -18,11 +18,14 @@ abstract class BasePresenter<T : BaseView> {
         this.view = view
     }
 
+    open fun onDetach() {
+        this.view = null
+    }
+
     open fun onCreate() {}
 
     open fun onDestroy() {
         disposables.clear()
-        view = null
     }
 
     fun Disposable.addToDisposables() = addDisposable(this)

@@ -27,6 +27,7 @@ abstract class BaseActivity<U: BaseActivityView, T : BasePresenter<U>>: DaggerAp
 
     override fun onDestroy() {
         super.onDestroy()
+        mvpPresenter.onDetach()
         mvpPresenter.onDestroy()
         mvpView.activity = null
     }

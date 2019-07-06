@@ -17,11 +17,11 @@ class BasePresenterTest {
     }
 
     @Test
-    fun testOnDestroy() {
+    fun testViewAttachAndDetach() {
         val genericPresenter = GenericPresenter()
         genericPresenter.onAttach(mock())
         assertNotNull(genericPresenter.getView())
-        genericPresenter.onDestroy()
+        genericPresenter.onDetach()
         assertNull(genericPresenter.getView())
     }
 }

@@ -4,13 +4,13 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.lucasnlm.arch.R
 import dev.lucasnlm.arch.core.presenter.BasePresenter
-import dev.lucasnlm.arch.device.DeviceInfoFragment
 import dev.lucasnlm.arch.main.Contracts
+import dev.lucasnlm.arch.main.interactor.MainActivityInteractor
 import dev.lucasnlm.arch.main.view.MainActivityView
-import dev.lucasnlm.arch.soc.SocInfoFragment
-import dev.lucasnlm.arch.system.SystemInfoFragment
 
-class MainActivityPresenter: BasePresenter<MainActivityView>(), Contracts.Presenter {
+open class MainActivityPresenter(
+    private val mainActivityInteractor: MainActivityInteractor
+): BasePresenter<MainActivityView>(), Contracts.Presenter {
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -37,20 +37,18 @@ class MainActivityPresenter: BasePresenter<MainActivityView>(), Contracts.Presen
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         view?.setOnNavigationItemSelectedListener(null)
+        super.onDestroy()
+    }
+
+    private fun replaceFragment(fragmentInfo: Pair<Int, Fragment>) {
+        view?.run {
+            setTitle(fragmentInfo.first)
+            replaceFragment(fragmentInfo.second)
+        }
     }
 
     private fun loadFragment(fragmentId: FragmentId) {
-        val fragment: Pair<Int, Fragment> = when(fragmentId) {
-            FragmentId.SocInfo -> R.string.soc_title to SocInfoFragment()
-            FragmentId.System -> R.string.sys_title to SystemInfoFragment()
-            FragmentId.DeviceInfo -> R.string.dev_title to DeviceInfoFragment()
-        }
-
-        view?.run {
-            setTitle(fragment.first)
-            replaceFragment(fragment.second)
-        }
+        mainActivityInteractor.loadFragment(fragmentId).subscribe(::replaceFragment).addToDisposables()
     }
 }

@@ -8,7 +8,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.lucasnlm.arch.R
 import dev.lucasnlm.arch.main.Contracts
 
-class MainActivityView: Contracts.View() {
+open class MainActivityView: Contracts.View() {
 
     private lateinit var container: FrameLayout
     private lateinit var bottomNavigationView: BottomNavigationView
