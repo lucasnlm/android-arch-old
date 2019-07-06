@@ -10,8 +10,8 @@ import dev.lucasnlm.arch.common.model.TagInfo
 
 class InfoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-    private val name: TextView = itemView.findViewById(R.id.info_name)
-    private val value: TextView? = itemView.findViewById(R.id.info_value)
+    val name: TextView = itemView.findViewById(R.id.info_name)
+    val value: TextView? = itemView.findViewById(R.id.info_value)
 
     fun bind(info: Info) = when (info) {
         is TagInfo -> {

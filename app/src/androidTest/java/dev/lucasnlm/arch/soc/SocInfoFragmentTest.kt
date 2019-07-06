@@ -1,61 +1,48 @@
 package dev.lucasnlm.arch.soc
 
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import dev.lucasnlm.arch.R
 import dev.lucasnlm.arch.cpu.MockCpuInfo
-
+import dev.lucasnlm.arch.helper.isDisplayed
+import dev.lucasnlm.arch.helper.isInfoListDisplayed
+import dev.lucasnlm.arch.soc.model.CpuInfo
 import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.math.roundToInt
 
 @RunWith(AndroidJUnit4::class)
 class SocInfoFragmentTest {
 
     @Test
-    fun testCpuBasicInfoAreVisible() {
+    fun testSocInfoAreDisplayed() {
         launchFragmentInContainer<SocInfoFragment>()
+        val mockedCpu: CpuInfo = MockCpuInfo.mockCpuInfo1.second
 
-        MockCpuInfo.mockCpuInfo1.second.run {
-            model?.isDisplayed()
-            modelName?.isDisplayed()
-            MockCpuInfo.mockAbi.isDisplayed()
-            MockCpuInfo.mockGovernor.isDisplayed()
-            cpuCores.toString().isDisplayed()
-            revision.toString().isDisplayed()
+        isInfoListDisplayed(R.id.details_list, mapOf(
+            "ABI" to mockedCpu.abi,
+            "Model" to mockedCpu.model!!,
+            "Cores" to mockedCpu.cpuCores,
+            "Revision" to mockedCpu.revision!!,
+            "Governor" to mockedCpu.governor!!
+        ))
 
-            clockInfo.clocks.forEach {
-                val clock = it.toDouble().roundToInt()
+        isInfoListDisplayed(R.id.clock_list, mapOf(
+            "Min" to "500 MHz",
+            "Max" to "1500 MHz",
+            "Core 0" to "1000 MHz",
+            "Core 1" to "1500 MHz",
+            "Core 2" to "500 MHz",
+            "Core 3" to "Inactive"
+        ))
 
-                if (it == 0) {
-                    "0 MHz".isNotDisplayed()
-                } else {
-                    "$clock MHz".isDisplayed()
-                }
-            }
+        isInfoListDisplayed(R.id.gpu_list, listOf(
+            "Vendor",
+            "Renderer",
+            "Version"
+        ))
 
-            clockInfo.maxClock?.let {
-                val clock = it.toDouble().roundToInt()
-                if (it == 0) {
-                    "0 MHz".isNotDisplayed()
-                } else {
-                    "$clock MHz".isDisplayed()
-                }
-            }
-
-            flags.forEach {
-                it.toUpperCase().isDisplayed()
-            }
+        mockedCpu.flags.forEach {
+            it.toUpperCase().isDisplayed()
         }
     }
-
-    private fun String.isDisplayed() =
-        onView(withText(this)).check(matches(ViewMatchers.isDisplayed()))
-
-    private fun String.isNotDisplayed() =
-        onView(withText(this)).check(doesNotExist())
 }
