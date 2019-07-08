@@ -5,12 +5,14 @@ import dev.lucasnlm.arch.soc.Contracts
 import dev.lucasnlm.arch.soc.model.CpuClockInfo
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import dev.lucasnlm.arch.soc.model.GpuInfo
-import dev.lucasnlm.arch.soc.data.CpuInfoLoader
 import dev.lucasnlm.arch.soc.interactor.SocInfoInteractor
 import dev.lucasnlm.arch.soc.view.SocInfoView
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.Observables
+import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 import javax.inject.Inject
-import javax.microedition.khronos.opengles.GL10
 
 class SocInfoPresenter @Inject constructor(
     private val socInfoInteractor: SocInfoInteractor
@@ -18,37 +20,40 @@ class SocInfoPresenter @Inject constructor(
 
     override fun onCreate() {
         super.onCreate()
-        loadCpuInfo()
-        loadGpuInfo()
-    }
 
-    override fun loadCpuInfo() {
-        socInfoInteractor
-            .getCpuInfo()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onCpuInfoLoaded, ::onFailToLoadCpuInfo)
-            .addToDisposables()
-
-        socInfoInteractor
-            .listenClockInfo()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onCpuClocksLoaded, ::onFailToLoadCpuInfo)
-            .addToDisposables()
-    }
-
-    override fun loadGpuInfo() {
-        view?.gpuInfoObservable
-            ?.observeOn(AndroidSchedulers.mainThread())
-            ?.map {
-                GpuInfo(
-                    it[GL10.GL_RENDERER].orEmpty(),
-                    it[GL10.GL_VENDOR].orEmpty(),
-                    it[GL10.GL_VERSION].orEmpty(),
-                    it[GL10.GL_EXTENSIONS].orEmpty().split(" ").filter { ext -> ext.isNotEmpty() }
+        view?.let {
+            Observables.combineLatest(
+                    socInfoInteractor.getCpuInfo().toObservable(),
+                    socInfoInteractor.listenClockInfo(),
+                    Observable.just(GpuInfo("","","", listOf()))
+//                    socInfoView.gpuInfoObservable.map {
+//                        GpuInfo(
+//                            it[GL10.GL_RENDERER].orEmpty(),
+//                            it[GL10.GL_VENDOR].orEmpty(),
+//                            it[GL10.GL_VERSION].orEmpty(),
+//                            it[GL10.GL_EXTENSIONS].orEmpty().split(" ").filter { ext -> ext.isNotEmpty() }
+//                        )
+//                    }
                 )
-            }
-            ?.subscribe(::onGpuInfoLoaded, ::onFailToLoadGpuInfo)
-            ?.addToDisposables()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .distinctUntilChanged()
+                .subscribe(
+                    { onGetInfo(it.first, it.second, it.third) },
+                    { onError(it) }).addToDisposables()
+        } ?: onError(Exception("Null view"))
+    }
+
+    override fun onGetInfo(cpuInfo: CpuInfo, clockInfo: CpuClockInfo, gpuInfo: GpuInfo) {
+        view?.hideProgress()
+
+        onCpuInfoLoaded(cpuInfo)
+        onCpuClocksLoaded(clockInfo)
+        onGpuInfoLoaded(gpuInfo)
+    }
+
+    override fun onError(tr: Throwable) {
+        // TODO implement / handle error UI
     }
 
     private fun onCpuInfoLoaded(cpuInfo: CpuInfo) {
@@ -68,15 +73,5 @@ class SocInfoPresenter @Inject constructor(
 
     private fun onGpuInfoLoaded(gpuInfo: GpuInfo) {
         view?.showGpuInfo(gpuInfo)
-    }
-
-    private fun onFailToLoadCpuInfo(throwable: Throwable) {
-        // TODO handle error
-        throwable.printStackTrace()
-    }
-
-    private fun onFailToLoadGpuInfo(throwable: Throwable) {
-        // TODO handle error
-        throwable.printStackTrace()
     }
 }

@@ -14,11 +14,12 @@ interface Contracts {
         fun showClocks(maxClock: Int?, minClock: Int?, clocks: List<Int>)
         fun showFlags(flags: List<String>)
         fun showGpuInfo(gpuInfo: GpuInfo)
+        fun hideProgress()
     }
 
     interface Presenter {
-        fun loadCpuInfo()
-        fun loadGpuInfo()
+        fun onGetInfo(cpuInfo: CpuInfo, clockInfo: CpuClockInfo, gpuInfo: GpuInfo)
+        fun onError(tr: Throwable)
     }
 
     interface Interactor {

@@ -17,12 +17,17 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import android.content.pm.ConfigurationInfo
 import android.app.ActivityManager
+import android.view.ViewGroup
+import android.widget.ProgressBar
 import dev.lucasnlm.arch.common.view.setupList
 import dev.lucasnlm.arch.soc.Contracts
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class SocInfoView: Contracts.View {
 
+    private lateinit var progress: ProgressBar
+    private lateinit var infoLayout: ViewGroup
     private lateinit var vendorName: TextView
     private lateinit var modelName: TextView
     private lateinit var detailsList: RecyclerView
@@ -37,6 +42,8 @@ class SocInfoView: Contracts.View {
     override fun onViewCreated(view: View) {
         vendorName = view.findViewById(R.id.vendor_name)
         modelName = view.findViewById(R.id.model_name)
+        progress = view.findViewById(R.id.progress)
+        infoLayout = view.findViewById(R.id.info_layout)
 
         detailsList = view.setupList(R.id.details_list)
         clockList = view.setupList(R.id.clock_list)
@@ -53,15 +60,14 @@ class SocInfoView: Contracts.View {
                     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
                         gl?.let {
                             // This code must run on UI / View part, otherwise GL won't return GL values.
-
-                            gpuInfoPublisher.onNext(
-                                mapOf(
-                                    GL10.GL_RENDERER to it.glGetString(GL10.GL_RENDERER),
-                                    GL10.GL_VENDOR to it.glGetString(GL10.GL_VENDOR),
-                                    GL10.GL_VERSION to getVersionFromActivityManager(glSurface.context),
-                                    GL10.GL_EXTENSIONS to it.glGetString(GL10.GL_EXTENSIONS)
-                                )
+                            val infoMap = mapOf(
+                                GL10.GL_RENDERER to it.glGetString(GL10.GL_RENDERER),
+                                GL10.GL_VENDOR to it.glGetString(GL10.GL_VENDOR),
+                                GL10.GL_VERSION to getVersionFromActivityManager(glSurface.context),
+                                GL10.GL_EXTENSIONS to it.glGetString(GL10.GL_EXTENSIONS)
                             )
+
+                            gpuInfoPublisher.onNext(infoMap)
                         }
                     }
                 }
@@ -220,5 +226,10 @@ class SocInfoView: Contracts.View {
         } else {
             "OpenGL ES 1.0"
         }
+    }
+
+    override fun hideProgress() {
+        progress.visibility = View.GONE
+        infoLayout.visibility = View.VISIBLE
     }
 }
