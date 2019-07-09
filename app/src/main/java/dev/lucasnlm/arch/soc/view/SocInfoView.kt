@@ -19,10 +19,10 @@ import android.content.pm.ConfigurationInfo
 import android.app.ActivityManager
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.core.view.isEmpty
 import dev.lucasnlm.arch.common.view.setupList
 import dev.lucasnlm.arch.soc.Contracts
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 
 class SocInfoView: Contracts.View {
 
@@ -36,8 +36,8 @@ class SocInfoView: Contracts.View {
     private lateinit var flagsList: FlexboxLayout
     private lateinit var glSurface: GLSurfaceView
 
-    private val gpuInfoPublisher = PublishSubject.create<Map<Int, String>>()
-    val gpuInfoObservable: Observable<Map<Int, String>> = gpuInfoPublisher.hide()
+    private val gpuInfoPublisher = PublishSubject.create<GpuInfo>()
+    val gpuInfoObservable: Observable<GpuInfo> = gpuInfoPublisher.hide()
 
     override fun onViewCreated(view: View) {
         vendorName = view.findViewById(R.id.vendor_name)
@@ -53,23 +53,23 @@ class SocInfoView: Contracts.View {
         glSurface = view.findViewById<GLSurfaceView>(R.id.gl_surface).apply {
             setRenderer(
                 object : GLSurfaceView.Renderer {
-                    override fun onDrawFrame(gl: GL10?) {}
+                    override fun onDrawFrame(gl: GL10?) {
+                        gl?.let {
+                            // This code must run on UI / View part, otherwise GL won't return GL values.
+                            val gpuInfo = GpuInfo(
+                                it.glGetString(GL10.GL_RENDERER),
+                                it.glGetString(GL10.GL_VENDOR),
+                                getVersionFromActivityManager(glSurface.context),
+                                it.glGetString(GL10.GL_EXTENSIONS).split(" ").filter { ext -> ext.isNotEmpty() }
+                            )
+
+                            gpuInfoPublisher.onNext(gpuInfo)
+                        }
+                    }
 
                     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {}
 
-                    override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-                        gl?.let {
-                            // This code must run on UI / View part, otherwise GL won't return GL values.
-                            val infoMap = mapOf(
-                                GL10.GL_RENDERER to it.glGetString(GL10.GL_RENDERER),
-                                GL10.GL_VENDOR to it.glGetString(GL10.GL_VENDOR),
-                                GL10.GL_VERSION to getVersionFromActivityManager(glSurface.context),
-                                GL10.GL_EXTENSIONS to it.glGetString(GL10.GL_EXTENSIONS)
-                            )
-
-                            gpuInfoPublisher.onNext(infoMap)
-                        }
-                    }
+                    override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) { }
                 }
             )
         }
@@ -148,7 +148,7 @@ class SocInfoView: Contracts.View {
                             value = if (cpuClock == 0) {
                                 context.getString(R.string.soc_screen_inactive_core)
                             } else {
-                                 context.getString(R.string.soc_screen_value_mhz, cpuClock)
+                                context.getString(R.string.soc_screen_value_mhz, cpuClock)
                             }
                         )
                     }
@@ -158,17 +158,19 @@ class SocInfoView: Contracts.View {
     }
 
     override fun showFlags(flags: List<String>) {
-        flags.sortedBy { it }.forEach {
-            flagsList.addView(
-                TextView(flagsList.context).apply {
-                    text = it.toUpperCase()
-                    setBackgroundResource(R.drawable.background_round_tag)
-                    layoutParams = LinearLayout.LayoutParams(
-                        FlexboxLayout.LayoutParams.WRAP_CONTENT,
-                        FlexboxLayout.LayoutParams.WRAP_CONTENT
-                    )
-                }
-            )
+        if (flagsList.isEmpty()) {
+            flags.sortedBy { it }.forEach {
+                flagsList.addView(
+                    TextView(flagsList.context).apply {
+                        text = it.toUpperCase()
+                        setBackgroundResource(R.drawable.background_round_tag)
+                        layoutParams = LinearLayout.LayoutParams(
+                            FlexboxLayout.LayoutParams.WRAP_CONTENT,
+                            FlexboxLayout.LayoutParams.WRAP_CONTENT
+                        )
+                    }
+                )
+            }
         }
     }
 

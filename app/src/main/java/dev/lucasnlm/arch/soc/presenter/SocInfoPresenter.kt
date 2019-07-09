@@ -7,7 +7,6 @@ import dev.lucasnlm.arch.soc.model.CpuInfo
 import dev.lucasnlm.arch.soc.model.GpuInfo
 import dev.lucasnlm.arch.soc.interactor.SocInfoInteractor
 import dev.lucasnlm.arch.soc.view.SocInfoView
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
@@ -21,22 +20,14 @@ class SocInfoPresenter @Inject constructor(
     override fun onCreate() {
         super.onCreate()
 
-        view?.let {
+        view?.let { socInfoView ->
             Observables.combineLatest(
                     socInfoInteractor.getCpuInfo().toObservable(),
                     socInfoInteractor.listenClockInfo(),
-                    Observable.just(GpuInfo("","","", listOf()))
-//                    socInfoView.gpuInfoObservable.map {
-//                        GpuInfo(
-//                            it[GL10.GL_RENDERER].orEmpty(),
-//                            it[GL10.GL_VENDOR].orEmpty(),
-//                            it[GL10.GL_VERSION].orEmpty(),
-//                            it[GL10.GL_EXTENSIONS].orEmpty().split(" ").filter { ext -> ext.isNotEmpty() }
-//                        )
-//                    }
+                    socInfoView.gpuInfoObservable
                 )
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .distinctUntilChanged()
                 .subscribe(
                     { onGetInfo(it.first, it.second, it.third) },
