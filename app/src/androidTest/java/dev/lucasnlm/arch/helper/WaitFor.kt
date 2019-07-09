@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.ViewAction
 import org.hamcrest.Matcher
 
-class WaitFor(private val millis: Long): ViewAction {
+private class WaitFor(private val millis: Long): ViewAction {
 
     override fun getDescription(): String = "Wait for $millis milliseconds."
 

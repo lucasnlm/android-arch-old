@@ -4,8 +4,9 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.lucasnlm.arch.R
 import dev.lucasnlm.arch.cpu.MockCpuInfo
-import dev.lucasnlm.arch.helper.isDisplayed
+import dev.lucasnlm.arch.helper.isVisible
 import dev.lucasnlm.arch.helper.isInfoListDisplayed
+import dev.lucasnlm.arch.helper.waitFor
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,6 +18,9 @@ class SocInfoFragmentTest {
     fun testSocInfoAreDisplayed() {
         launchFragmentInContainer<SocInfoFragment>()
         val mockedCpu: CpuInfo = MockCpuInfo.mockCpuInfo1.second
+
+        // Wait one second to make sure it got GL info.
+        waitFor(1000)
 
         isInfoListDisplayed(R.id.details_list, mapOf(
             "ABI" to mockedCpu.abi,
@@ -42,7 +46,7 @@ class SocInfoFragmentTest {
         ))
 
         mockedCpu.flags.forEach {
-            it.toUpperCase().isDisplayed()
+            it.toUpperCase().isVisible()
         }
     }
 }

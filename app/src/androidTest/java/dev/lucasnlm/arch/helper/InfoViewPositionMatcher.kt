@@ -13,7 +13,7 @@ private class InfoViewPositionMatcher(val position: Int, val label: String, val 
     }
 
     override fun matchesSafely(item: RecyclerView?): Boolean {
-        val viewHolder: InfoViewHolder? = item?.findViewHolderForAdapterPosition(position) as InfoViewHolder
+        val viewHolder: InfoViewHolder? = item?.findViewHolderForAdapterPosition(position) as? InfoViewHolder
         return viewHolder?.let { it.name.text == label && it.value?.text == value } ?: false
     }
 }

@@ -10,16 +10,18 @@ import dev.lucasnlm.arch.common.view.InfoViewHolder
 
 fun onListInfo(@IdRes viewId: Int): ViewInteraction = Espresso.onView(ViewMatchers.withId(viewId))
 
-fun String.isDisplayed(): ViewInteraction =
-    Espresso.onView(ViewMatchers.withText(this)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+fun String.isVisible(): ViewInteraction =
+    Espresso.onView(ViewMatchers.withText(this)).check(
+        ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+    )
 
 fun ViewInteraction.isInfoDisplayed(atPosition: Int, withLabel: String, value: String) {
-    perform(RecyclerViewActions.scrollToPosition<InfoViewHolder>(0))
+    perform(RecyclerViewActions.scrollToPosition<InfoViewHolder>(atPosition))
     check(ViewAssertions.matches(infoAtPosition(atPosition, withLabel, value)))
 }
 
 fun ViewInteraction.isInfoDisplayed(atPosition: Int, withLabel: String) {
-    perform(RecyclerViewActions.scrollToPosition<InfoViewHolder>(0))
+    perform(RecyclerViewActions.scrollToPosition<InfoViewHolder>(atPosition))
     check(ViewAssertions.matches(infoAtPosition(atPosition, withLabel)))
 }
 
