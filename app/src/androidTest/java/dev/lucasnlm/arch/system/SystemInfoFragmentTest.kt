@@ -3,6 +3,7 @@ package dev.lucasnlm.arch.system
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.lucasnlm.arch.R
+import dev.lucasnlm.arch.cpu.MockSystemInfo
 import dev.lucasnlm.arch.helper.isInfoListDisplayed
 import dev.lucasnlm.arch.helper.waitFor
 import org.junit.Test
@@ -17,28 +18,32 @@ class SystemInfoFragmentTest {
 
         waitFor(1000)
 
+        val systemInfo = MockSystemInfo.systemInfo1
         isInfoListDisplayed(R.id.details_list, mapOf(
-            "Android" to "Marshmallow",
-            "API" to "23"
+            "Android" to  systemInfo.androidName!!,
+            "API" to systemInfo.androidApi.toString()
         ))
 
+        val productInfo = systemInfo.productInfo
         isInfoListDisplayed(R.id.product_list, mapOf(
-            "Model" to "XT1069",
-            "Product" to "titan_retbr_dstv",
-            "Device" to "titan_udstv",
-            "Bootloader" to "0x4887",
-            "Board" to "MSM8226"
+            "Model" to productInfo.model,
+            "Product" to productInfo.product,
+            "Device" to productInfo.deviceName,
+            "Bootloader" to productInfo.bootloader,
+            "Board" to productInfo.boardName
         ))
 
+        val brand = systemInfo.brand
         isInfoListDisplayed(R.id.brand_list, mapOf(
-            "Brand" to "motorola",
-            "Manufacturer" to "motorola"
+            "Brand" to brand.brand,
+            "Manufacturer" to brand.manufacturer
         ))
 
+        val version = systemInfo.version
         isInfoListDisplayed(R.id.version_list, mapOf(
-            "Codename" to "REL",
-            "Release" to "6.0",
-            "Security Patch" to "2016-08-01"
+            "Codename" to version.codename,
+            "Release" to version.release,
+            "Security Patch" to version.securityPatch!!
         ))
     }
 }

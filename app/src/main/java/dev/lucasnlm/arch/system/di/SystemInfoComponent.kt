@@ -8,7 +8,7 @@ import dev.lucasnlm.arch.system.SystemInfoFragment
 
 @Component(modules = [
     AndroidSupportInjectionModule::class,
-    DeviceModule::class,
+    SystemModule::class,
     SystemInfoModule::class
 ])
 @FragmentScope
@@ -18,7 +18,7 @@ interface SystemInfoComponent {
 
     @Component.Builder
     interface Builder {
-        fun deviceModule(module: DeviceModule): Builder
+        fun systemModule(module: SystemModule): Builder
 
         fun build(): SystemInfoComponent
     }

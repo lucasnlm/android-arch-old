@@ -6,10 +6,12 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import dev.lucasnlm.arch.MainApplication
 import dev.lucasnlm.arch.core.di.scope.AppScope
+import dev.lucasnlm.arch.system.di.SystemModule
 
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     DeviceModule::class,
+    SystemModule::class,
     FragmentModule::class,
     ActivityModule::class
 ])

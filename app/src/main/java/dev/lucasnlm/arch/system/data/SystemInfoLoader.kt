@@ -8,7 +8,7 @@ import dev.lucasnlm.arch.system.model.SystemInfo
 import dev.lucasnlm.arch.system.model.VersionInfo
 import io.reactivex.Single
 
-class SystemInfoLoader: InfoLoader<SystemInfo> {
+open class SystemInfoLoader: InfoLoader<SystemInfo> {
 
     override fun load(): Single<SystemInfo> = Single.just(
         SystemInfo(
