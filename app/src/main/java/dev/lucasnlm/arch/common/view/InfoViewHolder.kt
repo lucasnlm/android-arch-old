@@ -10,8 +10,8 @@ import dev.lucasnlm.arch.common.model.TagInfo
 
 class InfoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-    val name: TextView = itemView.findViewById(R.id.info_name)
-    val value: TextView? = itemView.findViewById(R.id.info_value)
+    private val name: TextView = itemView.findViewById(R.id.info_name)
+    private val value: TextView? = itemView.findViewById(R.id.info_value)
 
     fun bind(info: Info) = when (info) {
         is TagInfo -> {
@@ -23,4 +23,8 @@ class InfoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         }
         else -> throw IllegalArgumentException("Illegal argument $info")
     }
+
+    fun getName(): String = name.text.toString()
+
+    fun getValue(): String? = value?.text.toString()
 }
