@@ -3,7 +3,7 @@ package dev.lucasnlm.arch.system.view
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import dev.lucasnlm.arch.R
-import dev.lucasnlm.arch.common.model.NamedInfo
+import dev.lucasnlm.arch.common.model.Info
 import dev.lucasnlm.arch.common.view.InfoAdapter
 import dev.lucasnlm.arch.common.view.setupList
 import dev.lucasnlm.arch.system.Contracts
@@ -28,80 +28,80 @@ class SystemInfoView: Contracts.View {
 
         with (detailsList.adapter as InfoAdapter) {
             list = listOf(
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_screen_android_name),
                     value = systemInfo.androidName
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_screen_android_api),
                     value = systemInfo.androidApi.toString()
                 )
             ).filter {
-                it.value != null
+                it.hasValue()
             }
             notifyDataSetChanged()
         }
 
         with(productList.adapter as InfoAdapter) {
             list = listOf(
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_screen_model),
                     value = systemInfo.productInfo.model
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_screen_product),
                     value = systemInfo.productInfo.product
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_screen_device_name),
                     value = systemInfo.productInfo.deviceName
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_screen_bootloader),
                     value = systemInfo.productInfo.bootloader
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_screen_board_name),
                     value = systemInfo.productInfo.boardName
                 )
             ).filter {
-                it.value != null && it.value.isNotEmpty()
+                it.hasValue()
             }
             notifyDataSetChanged()
         }
 
         with (brandList.adapter as InfoAdapter) {
             list = listOf(
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_screen_brand),
                     value = systemInfo.brand.brand
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_screen_manufacturer),
                     value = systemInfo.brand.manufacturer
                 )
             ).filter {
-                it.value != null && it.value.isNotEmpty()
+                it.hasValue()
             }
             notifyDataSetChanged()
         }
 
         with (versionList.adapter as InfoAdapter) {
             list = listOf(
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_version_codename),
                     value = systemInfo.version.codename
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_version_release),
                     value = systemInfo.version.release
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.sys_version_security_path),
                     value = systemInfo.version.securityPatch
                 )
             ).filter {
-                it.value != null && it.value.isNotEmpty()
+                it.hasValue()
             }
             notifyDataSetChanged()
         }

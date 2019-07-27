@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dev.lucasnlm.arch.R
 import dev.lucasnlm.arch.common.model.Info
-import dev.lucasnlm.arch.common.model.NamedInfo
 
 class InfoAdapter: RecyclerView.Adapter<InfoViewHolder>() {
 
@@ -29,7 +28,7 @@ class InfoAdapter: RecyclerView.Adapter<InfoViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int = when (list[position]) {
-        is NamedInfo -> InfoViewType.NamedValue.ordinal
+        is Info.Named -> InfoViewType.NamedValue.ordinal
         else -> InfoViewType.TaggedValue.ordinal
     }
 

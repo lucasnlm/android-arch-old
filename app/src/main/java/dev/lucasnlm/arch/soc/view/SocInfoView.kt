@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.*
 import com.google.android.flexbox.FlexboxLayout
-import dev.lucasnlm.arch.common.model.NamedInfo
 import dev.lucasnlm.arch.common.view.InfoAdapter
 import dev.lucasnlm.arch.soc.model.CpuInfo
 import android.widget.LinearLayout
@@ -20,6 +19,7 @@ import android.app.ActivityManager
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.view.isEmpty
+import dev.lucasnlm.arch.common.model.Info
 import dev.lucasnlm.arch.common.view.setupList
 import dev.lucasnlm.arch.soc.Contracts
 import io.reactivex.Observable
@@ -83,36 +83,36 @@ class SocInfoView: Contracts.View {
 
         with (detailsList.adapter as InfoAdapter) {
             list = listOf(
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_screen_abi),
                     value = cpuInfo.abi
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_screen_model),
                     value = cpuInfo.model
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_screen_cores),
                     value = cpuInfo.cpuCores.toString()
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_screen_device),
                     value = cpuInfo.device
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_screen_revision),
                     value = cpuInfo.revision
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_screen_governor),
                     value = cpuInfo.governor
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_screen_serial),
                     value = cpuInfo.serial?.toUpperCase()
                 )
             ).filter {
-                it.value != null
+                it.hasValue()
             }
             notifyDataSetChanged()
         }
@@ -121,10 +121,10 @@ class SocInfoView: Contracts.View {
     override fun showClocks(maxClock: Int?, minClock: Int?, clocks: List<Int>) {
         val context = detailsList.context
 
-        val clockItems = mutableListOf<NamedInfo>()
+        val clockItems = mutableListOf<Info.Named>()
         minClock?.let {
             clockItems.add(
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_screen_min_clock),
                     value = context.getString(R.string.soc_screen_value_mhz, it)
                 )
@@ -133,7 +133,7 @@ class SocInfoView: Contracts.View {
 
         maxClock?.let {
             clockItems.add(
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_screen_max_clock),
                     value = context.getString(R.string.soc_screen_value_mhz, it)
                 )
@@ -143,7 +143,7 @@ class SocInfoView: Contracts.View {
         with(clockList.adapter as InfoAdapter) {
             list = clockItems.plus(
                     clocks.mapIndexed { index, cpuClock ->
-                        NamedInfo(
+                        Info.Named(
                             name = context.getString(R.string.soc_screen_core_n, index),
                             value = if (cpuClock == 0) {
                                 context.getString(R.string.soc_screen_inactive_core)
@@ -179,15 +179,15 @@ class SocInfoView: Contracts.View {
 
         with(gpuList.adapter as InfoAdapter) {
             list = listOf(
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_gpu_vendor),
                     value = gpuInfo.vendor
                 ),
-                NamedInfo(
+                Info.Named(
                     name = context.getString(R.string.soc_gpu_renderer),
                     value = gpuInfo.renderer
                 ),
-                NamedInfo(
+                Info.Named(
                     name =context.getString(R.string.soc_gpu_version),
                     value = gpuInfo.version
                 )

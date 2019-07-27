@@ -1,16 +1,18 @@
 package dev.lucasnlm.arch.common.model
 
-open class Info(
+sealed class Info(
     val id: Long
-)
+) {
+    class Named(
+        id: Long = 0L,
+        val name: String,
+        val value: String? = null
+    ) : Info(id) {
+        fun hasValue(): Boolean = value != null && value.isNullOrEmpty().not()
+    }
 
-class NamedInfo(
-    id: Long = 0,
-    val name: String,
-    val value: String? = null
-) : Info(id)
-
-class TagInfo(
-    id: Long = 0,
-    val name: String
-) : Info(id)
+    class Tag(
+        id: Long = 0L,
+        val name: String
+    ) : Info(id)
+}
