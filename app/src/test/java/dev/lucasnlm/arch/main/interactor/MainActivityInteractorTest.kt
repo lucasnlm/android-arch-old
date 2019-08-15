@@ -1,7 +1,7 @@
 package dev.lucasnlm.arch.main.interactor
 
 import androidx.fragment.app.Fragment
-import dev.lucasnlm.arch.device.DeviceInfoFragment
+import dev.lucasnlm.arch.phone.PhoneInfoFragment
 import dev.lucasnlm.arch.main.presenter.FragmentId
 import dev.lucasnlm.arch.soc.SocInfoFragment
 import dev.lucasnlm.arch.system.SystemInfoFragment
@@ -24,7 +24,7 @@ class MainActivityInteractorTest {
         }
 
         loadFragment(FragmentId.DeviceInfo).test().assertValue {
-            it.second is DeviceInfoFragment
+            it.second is PhoneInfoFragment
         }
     }
 }

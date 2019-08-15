@@ -1,4 +1,4 @@
-package dev.lucasnlm.arch.device.model
+package dev.lucasnlm.arch.phone.model
 
 data class DisplayInfo(
     val width: Int,
