@@ -25,5 +25,5 @@ abstract class FragmentModule {
     @ContributesAndroidInjector(
         modules = [ PhoneInfoModule::class ]
     )
-    abstract fun contributeDeviceInfoFragment(): PhoneInfoFragment
+    abstract fun contributePhoneInfoFragment(): PhoneInfoFragment
 }

@@ -10,6 +10,7 @@ import dev.lucasnlm.arch.system.di.SystemModule
 
 @Component(modules = [
     AndroidSupportInjectionModule::class,
+    CoreModule::class,
     DeviceModule::class,
     SystemModule::class,
     FragmentModule::class,
@@ -23,6 +24,8 @@ interface AppComponent : AndroidInjector<MainApplication> {
 
         @BindsInstance
         fun application(application: MainApplication): Builder
+
+        fun coreModule(coreModule: CoreModule): Builder
 
         fun build(): AppComponent
     }

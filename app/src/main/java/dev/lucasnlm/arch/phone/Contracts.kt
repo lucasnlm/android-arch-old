@@ -15,6 +15,6 @@ interface Contracts {
     }
 
     interface Interactor {
-        fun getPhoneInfo(): Single<PhoneInfo>
+        fun loadPhoneInfo(): Single<PhoneInfo>
     }
 }
