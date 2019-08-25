@@ -12,26 +12,34 @@ open class MainActivityPresenter(
     private val mainActivityInteractor: MainActivityInteractor
 ): BasePresenter<MainActivityView>(), Contracts.Presenter {
 
+    private var currentTab: Int? = null
+
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_cpu -> {
-                loadFragment(FragmentId.SocInfo)
-                true
+        if (currentTab != item.itemId) {
+            currentTab = item.itemId
+            when (item.itemId) {
+                R.id.navigation_cpu -> {
+                    loadFragment(FragmentId.SocInfo)
+                    true
+                }
+                R.id.navigation_system -> {
+                    loadFragment(FragmentId.System)
+                    true
+                }
+                R.id.navigation_device -> {
+                    loadFragment(FragmentId.DeviceInfo)
+                    true
+                }
+                else -> false
             }
-            R.id.navigation_system -> {
-                loadFragment(FragmentId.System)
-                true
-            }
-            R.id.navigation_device -> {
-                loadFragment(FragmentId.DeviceInfo)
-                true
-            }
-            else -> false
+        } else {
+            false
         }
     }
 
     override fun onCreate() {
         super.onCreate()
+        currentTab = R.id.navigation_cpu
         loadFragment(FragmentId.SocInfo)
         view?.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
