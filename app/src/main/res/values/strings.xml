@@ -46,6 +46,10 @@
     <!-- Device screen -->
     <string name="dev_title">Device</string>
     <string name="dev_screen_display">Display</string>
+    <string name="dev_screen_width">Width</string>
+    <string name="dev_screen_height">Height</string>
+    <string name="dev_screen_density">Density</string>
+    <string name="dev_screen_dpi">DPI</string>
 
     <!-- Sensors screen -->
     <string name="sen_title">Sensors</string>
