@@ -22,7 +22,7 @@ object AndroidName {
         24, 25 -> "Nougat"
         26, 27 -> "Oreo"
         28 -> "Pie"
-        29 -> "Android 10"
+        29 -> "10"
         else -> null
     }
 }
