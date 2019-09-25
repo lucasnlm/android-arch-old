@@ -9,7 +9,7 @@ import dev.lucasnlm.arch.common.view.setupList
 import dev.lucasnlm.arch.system.Contracts
 import dev.lucasnlm.arch.system.model.SystemInfo
 
-class SystemInfoView: Contracts.View {
+class SystemInfoView : Contracts.View {
 
     private lateinit var detailsList: RecyclerView
     private lateinit var productList: RecyclerView
@@ -26,84 +26,88 @@ class SystemInfoView: Contracts.View {
     override fun showInfo(systemInfo: SystemInfo) {
         val context = detailsList.context
 
-        with (detailsList.adapter as InfoAdapter) {
-            list = listOf(
-                Info.Named(
-                    name = context.getString(R.string.sys_screen_android_name),
-                    value = systemInfo.androidName
-                ),
-                Info.Named(
-                    name = context.getString(R.string.sys_screen_android_api),
-                    value = systemInfo.androidApi.toString()
-                )
-            ).filter {
-                it.hasValue()
-            }
-            notifyDataSetChanged()
+        with(detailsList.adapter as InfoAdapter) {
+            setListAndNotify(
+                listOf(
+                    Info.Named(
+                        name = context.getString(R.string.sys_screen_android_name),
+                        value = systemInfo.androidName
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.sys_screen_android_api),
+                        value = systemInfo.androidApi.toString()
+                    )
+                ).filter {
+                    it.hasValue()
+                }
+            )
         }
 
         with(productList.adapter as InfoAdapter) {
-            list = listOf(
-                Info.Named(
-                    name = context.getString(R.string.sys_screen_model),
-                    value = systemInfo.productInfo.model
-                ),
-                Info.Named(
-                    name = context.getString(R.string.sys_screen_product),
-                    value = systemInfo.productInfo.product
-                ),
-                Info.Named(
-                    name = context.getString(R.string.sys_screen_device_name),
-                    value = systemInfo.productInfo.deviceName
-                ),
-                Info.Named(
-                    name = context.getString(R.string.sys_screen_bootloader),
-                    value = systemInfo.productInfo.bootloader
-                ),
-                Info.Named(
-                    name = context.getString(R.string.sys_screen_board_name),
-                    value = systemInfo.productInfo.boardName
-                )
-            ).filter {
-                it.hasValue()
-            }
-            notifyDataSetChanged()
+            setListAndNotify(
+                listOf(
+                    Info.Named(
+                        name = context.getString(R.string.sys_screen_model),
+                        value = systemInfo.productInfo.model
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.sys_screen_product),
+                        value = systemInfo.productInfo.product
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.sys_screen_device_name),
+                        value = systemInfo.productInfo.deviceName
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.sys_screen_bootloader),
+                        value = systemInfo.productInfo.bootloader
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.sys_screen_board_name),
+                        value = systemInfo.productInfo.boardName
+                    )
+                ).filter {
+                    it.hasValue()
+                }
+            )
         }
 
-        with (brandList.adapter as InfoAdapter) {
-            list = listOf(
-                Info.Named(
-                    name = context.getString(R.string.sys_screen_brand),
-                    value = systemInfo.brand.brand
-                ),
-                Info.Named(
-                    name = context.getString(R.string.sys_screen_manufacturer),
-                    value = systemInfo.brand.manufacturer
-                )
-            ).filter {
-                it.hasValue()
-            }
-            notifyDataSetChanged()
+        with(brandList.adapter as InfoAdapter) {
+            setListAndNotify(
+                listOf(
+                    Info.Named(
+                        name = context.getString(R.string.sys_screen_brand),
+                        value = systemInfo.brand.brand
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.sys_screen_manufacturer),
+                        value = systemInfo.brand.manufacturer
+                    )
+                ).filter {
+                    it.hasValue()
+                }
+            )
         }
 
-        with (versionList.adapter as InfoAdapter) {
-            list = listOf(
-                Info.Named(
-                    name = context.getString(R.string.sys_version_codename),
-                    value = systemInfo.version.codename
-                ),
-                Info.Named(
-                    name = context.getString(R.string.sys_version_release),
-                    value = systemInfo.version.release
-                ),
-                Info.Named(
-                    name = context.getString(R.string.sys_version_security_path),
-                    value = systemInfo.version.securityPatch
-                )
-            ).filter {
-                it.hasValue()
-            }
-            notifyDataSetChanged()
+        with(versionList.adapter as InfoAdapter) {
+            setListAndNotify(
+                listOf(
+                    Info.Named(
+                        name = context.getString(R.string.sys_version_codename),
+                        value = systemInfo.version.codename
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.sys_version_release),
+                        value = systemInfo.version.release
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.sys_version_security_path),
+                        value = systemInfo.version.securityPatch
+                    )
+                ).filter {
+                    it.hasValue()
+                }
+            )
         }
     }
 }

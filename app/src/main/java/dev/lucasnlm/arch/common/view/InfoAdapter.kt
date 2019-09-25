@@ -8,7 +8,7 @@ import dev.lucasnlm.arch.common.model.Info
 
 class InfoAdapter: RecyclerView.Adapter<InfoViewHolder>() {
 
-    var list = listOf<Info>()
+    private var list = listOf<Info>()
 
     init {
         setHasStableIds(true)
@@ -35,4 +35,9 @@ class InfoAdapter: RecyclerView.Adapter<InfoViewHolder>() {
     override fun getItemId(position: Int): Long = list[position].id
 
     override fun getItemCount(): Int = list.size
+
+    fun setListAndNotify(list: List<Info>) {
+        this.list = list
+        notifyDataSetChanged()
+    }
 }

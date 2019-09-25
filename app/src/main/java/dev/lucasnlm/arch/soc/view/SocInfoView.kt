@@ -24,7 +24,7 @@ import dev.lucasnlm.arch.common.view.setupList
 import dev.lucasnlm.arch.soc.Contracts
 import io.reactivex.Observable
 
-class SocInfoView: Contracts.View {
+class SocInfoView : Contracts.View {
 
     private lateinit var progress: ProgressBar
     private lateinit var infoLayout: ViewGroup
@@ -69,7 +69,7 @@ class SocInfoView: Contracts.View {
 
                     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {}
 
-                    override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) { }
+                    override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {}
                 }
             )
         }
@@ -81,40 +81,41 @@ class SocInfoView: Contracts.View {
         vendorName.text = cpuInfo.getReadableVendorName(context)
         modelName.text = cpuInfo.modelName
 
-        with (detailsList.adapter as InfoAdapter) {
-            list = listOf(
-                Info.Named(
-                    name = context.getString(R.string.soc_screen_abi),
-                    value = cpuInfo.abi
-                ),
-                Info.Named(
-                    name = context.getString(R.string.soc_screen_model),
-                    value = cpuInfo.model
-                ),
-                Info.Named(
-                    name = context.getString(R.string.soc_screen_cores),
-                    value = cpuInfo.cpuCores.toString()
-                ),
-                Info.Named(
-                    name = context.getString(R.string.soc_screen_device),
-                    value = cpuInfo.device
-                ),
-                Info.Named(
-                    name = context.getString(R.string.soc_screen_revision),
-                    value = cpuInfo.revision
-                ),
-                Info.Named(
-                    name = context.getString(R.string.soc_screen_governor),
-                    value = cpuInfo.governor
-                ),
-                Info.Named(
-                    name = context.getString(R.string.soc_screen_serial),
-                    value = cpuInfo.serial?.toUpperCase()
-                )
-            ).filter {
-                it.hasValue()
-            }
-            notifyDataSetChanged()
+        with(detailsList.adapter as InfoAdapter) {
+            setListAndNotify(
+                listOf(
+                    Info.Named(
+                        name = context.getString(R.string.soc_screen_abi),
+                        value = cpuInfo.abi
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.soc_screen_model),
+                        value = cpuInfo.model
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.soc_screen_cores),
+                        value = cpuInfo.cpuCores.toString()
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.soc_screen_device),
+                        value = cpuInfo.device
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.soc_screen_revision),
+                        value = cpuInfo.revision
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.soc_screen_governor),
+                        value = cpuInfo.governor
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.soc_screen_serial),
+                        value = cpuInfo.serial?.toUpperCase()
+                    )
+                ).filter {
+                    it.hasValue()
+                }
+            )
         }
     }
 
@@ -141,7 +142,8 @@ class SocInfoView: Contracts.View {
         }
 
         with(clockList.adapter as InfoAdapter) {
-            list = clockItems.plus(
+            setListAndNotify(
+                clockItems.plus(
                     clocks.mapIndexed { index, cpuClock ->
                         Info.Named(
                             name = context.getString(R.string.soc_screen_core_n, index),
@@ -153,7 +155,7 @@ class SocInfoView: Contracts.View {
                         )
                     }
                 )
-            notifyDataSetChanged()
+            )
         }
     }
 
@@ -178,22 +180,22 @@ class SocInfoView: Contracts.View {
         val context = detailsList.context
 
         with(gpuList.adapter as InfoAdapter) {
-            list = listOf(
-                Info.Named(
-                    name = context.getString(R.string.soc_gpu_vendor),
-                    value = gpuInfo.vendor
-                ),
-                Info.Named(
-                    name = context.getString(R.string.soc_gpu_renderer),
-                    value = gpuInfo.renderer
-                ),
-                Info.Named(
-                    name =context.getString(R.string.soc_gpu_version),
-                    value = gpuInfo.version
+            setListAndNotify(
+                listOf(
+                    Info.Named(
+                        name = context.getString(R.string.soc_gpu_vendor),
+                        value = gpuInfo.vendor
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.soc_gpu_renderer),
+                        value = gpuInfo.renderer
+                    ),
+                    Info.Named(
+                        name = context.getString(R.string.soc_gpu_version),
+                        value = gpuInfo.version
+                    )
                 )
             )
-
-            notifyDataSetChanged()
         }
 
         glSurface.visibility = View.GONE
@@ -207,18 +209,19 @@ class SocInfoView: Contracts.View {
         else -> parseCpuImplementer(context, vendor)
     }
 
-    private fun parseCpuImplementer(context: Context, cpuImplementer: String?): String = when(cpuImplementer) {
-        "0x51" -> "Qualcomm Technologies, Inc"
-        "0x41" -> "ARM Ltd."
-        "0x50" -> "Applied Micro Circuits Corporation (APM)"
-        "0x42", "0x43" -> "Cavium"
-        "0x4e" -> "NVIDIA"
-        "0x53" -> "Samsung"
-        "0x67" -> "Apple"
-        "0x56" -> "Marvell"
-        "0x69" -> "Intel"
-        else -> context.getString(R.string.unknown)
-    }
+    private fun parseCpuImplementer(context: Context, cpuImplementer: String?): String =
+        when (cpuImplementer) {
+            "0x51" -> "Qualcomm Technologies, Inc"
+            "0x41" -> "ARM Ltd."
+            "0x50" -> "Applied Micro Circuits Corporation (APM)"
+            "0x42", "0x43" -> "Cavium"
+            "0x4e" -> "NVIDIA"
+            "0x53" -> "Samsung"
+            "0x67" -> "Apple"
+            "0x56" -> "Marvell"
+            "0x69" -> "Intel"
+            else -> context.getString(R.string.unknown)
+        }
 
     private fun getVersionFromActivityManager(context: Context): String {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
