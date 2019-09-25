@@ -9,7 +9,7 @@ import dev.lucasnlm.arch.core.presenter.BasePresenter
 import dev.lucasnlm.arch.core.view.BaseView
 import javax.inject.Inject
 
-abstract class BaseFragment<U: BaseView, T : BasePresenter<U>>: DaggerFragment() {
+abstract class BaseFragment<U : BaseView, T : BasePresenter<U>> : DaggerFragment() {
 
     @Inject
     lateinit var mvpPresenter: T
@@ -19,7 +19,11 @@ abstract class BaseFragment<U: BaseView, T : BasePresenter<U>>: DaggerFragment()
 
     protected abstract val layoutRes: Int
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(layoutRes, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +35,7 @@ abstract class BaseFragment<U: BaseView, T : BasePresenter<U>>: DaggerFragment()
         super.onViewCreated(view, savedInstanceState)
         mvpView.onViewCreated(view)
 
-        // It will call onCreate() in onViewCreated to make sure view isn't null.
+        // It will call onCreate() in onViewCreated to make any view is null.
         mvpPresenter.onCreate()
     }
 

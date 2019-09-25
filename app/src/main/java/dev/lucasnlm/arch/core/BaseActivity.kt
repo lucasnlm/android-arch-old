@@ -6,7 +6,8 @@ import dev.lucasnlm.arch.core.presenter.BasePresenter
 import dev.lucasnlm.arch.core.view.BaseActivityView
 import javax.inject.Inject
 
-abstract class BaseActivity<U: BaseActivityView, T : BasePresenter<U>>: DaggerAppCompatActivity() {
+abstract class BaseActivity<U : BaseActivityView, T : BasePresenter<U>> :
+    DaggerAppCompatActivity() {
 
     @Inject
     lateinit var mvpPresenter: T
@@ -19,16 +20,26 @@ abstract class BaseActivity<U: BaseActivityView, T : BasePresenter<U>>: DaggerAp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layoutRes)
-        mvpView.activity = this
-        mvpView.onViewCreated(window.decorView)
-        mvpPresenter.onAttach(mvpView)
-        mvpPresenter.onCreate()
+
+        mvpView.run {
+            setActivity(this@BaseActivity)
+            onViewCreated(window.decorView)
+        }
+
+        mvpPresenter.run {
+            onAttach(mvpView)
+            onCreate()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mvpPresenter.onDetach()
-        mvpPresenter.onDestroy()
-        mvpView.activity = null
+
+        mvpPresenter.run {
+            onDetach()
+            onDestroy()
+        }
+
+        mvpView.freeActivity()
     }
 }

@@ -19,7 +19,6 @@ class InfoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             name.text = info.name
             value?.text = info.value
         }
-        else -> throw IllegalArgumentException("Illegal argument $info")
     }
 
     fun getName(): String = name.text.toString()
