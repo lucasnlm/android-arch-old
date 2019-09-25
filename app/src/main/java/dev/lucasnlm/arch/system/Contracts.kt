@@ -8,6 +8,7 @@ interface Contracts {
 
     interface View: BaseView {
         fun showInfo(systemInfo: SystemInfo)
+        fun hideProgress()
     }
 
     interface Presenter {

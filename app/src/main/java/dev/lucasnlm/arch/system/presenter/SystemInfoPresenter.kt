@@ -26,6 +26,7 @@ class SystemInfoPresenter @Inject constructor(
 
     private fun onSystemInfoLoaded(systemInfo: SystemInfo) {
         view?.showInfo(systemInfo)
+        view?.hideProgress()
     }
 
     private fun onLoadFailed(throwable: Throwable) {
